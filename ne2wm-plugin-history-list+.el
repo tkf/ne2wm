@@ -27,14 +27,29 @@
 
 (defvar ne2wm:def-plugin-history-list+-wname-list nil
   "List of the window names to show in the history-list+ plugin.
-Example: '(left right).")
+Use `ne2wm:def-plugin-history-list+-setup' to set this value.")
 
 (defvar ne2wm:def-plugin-history-list+-pointer-list nil
   "List of the window markers to use in the history-list+ plugin.
-Example: '(\"<--\" \"-->\").")
+Use `ne2wm:def-plugin-history-list+-setup' to set this value.")
 
 (make-variable-frame-local 'ne2wm:def-plugin-history-list+-wname-list)
 (make-variable-frame-local 'ne2wm:def-plugin-history-list+-pointer-list)
+
+
+(defun ne2wm:def-plugin-history-list+-setup (wnames pointers)
+  "Setup history-list+ for current perspective.
+
+Call this function from the `:start' function.
+
+WNAMES is the list of window names (symbol).
+Example: '(left right).
+
+POINTERS ist the list of pointers (string).
+Example: '(\"<--\" \"-->\")."
+  (setq ne2wm:def-plugin-history-list+-wname-list wnames)
+  (setq ne2wm:def-plugin-history-list+-pointer-list pointers))
+
 
 (defun ne2wm:def-plugin-history-list+ (frame wm winfo)
   "History-list+ plugin definition."
