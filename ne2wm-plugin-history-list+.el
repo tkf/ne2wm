@@ -1,4 +1,4 @@
-;;; ne2wm-history-list+.el --- history-list plugin for many windows
+;;; ne2wm-plugin-history-list+.el --- history-list plugin for many windows
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -168,5 +168,5 @@ function.  This argument is either `e2wm:history-get-next' or
    (ne2wm:def-plugin-history-list+-other-wname offset)
    #'ne2wm:history-get-prev))
 
-(provide 'ne2wm-history-list+)
-;;; ne2wm-history-list+.el ends here
+(provide 'ne2wm-plugin-history-list+)
+;;; ne2wm-plugin-history-list+.el ends here
