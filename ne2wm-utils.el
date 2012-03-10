@@ -1,4 +1,4 @@
-;;; ne2wm-setup.el --- Load all plugin/perspectives in ne2wm
+;;; ne2wm-utils.el --- utility functions
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -22,10 +22,17 @@
 
 ;;; Code:
 
-(require 'ne2wm-utils)
-(ne2wm:load-files "ne2wm-plugin-.*\.el")
-(ne2wm:load-files "ne2wm-pst-.*\.el")
+(defun ne2wm:load-files (&optional regex dir)
+  (let* ((dir (or dir (file-name-directory load-file-name)))
+         (regex (or regex ".+"))
+         (files (and
+                 (file-accessible-directory-p dir)
+                 (directory-files dir 'full regex))))
+
+    (mapc (lambda (file)
+            (when (load file nil t)
+              (message "`%s' loaded." file))) files)))
 
 
-(provide 'ne2wm-setup)
-;;; ne2wm-setup.el ends here
+(provide 'ne2wm-utils)
+;;; ne2wm-utils.el ends here
