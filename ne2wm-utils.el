@@ -28,10 +28,7 @@
          (files (and
                  (file-accessible-directory-p dir)
                  (directory-files dir 'full regex))))
-
-    (mapc (lambda (file)
-            (when (load file nil t)
-              (message "`%s' loaded." file))) files)))
+    (mapc #'load files)))
 
 
 (provide 'ne2wm-utils)
