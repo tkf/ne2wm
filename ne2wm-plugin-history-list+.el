@@ -22,7 +22,7 @@
 
 ;;; Code:
 
-(eval-when-compile '(require 'cl))
+(eval-when-compile (require 'cl))
 (require 'e2wm)
 
 (defvar ne2wm:def-plugin-history-list+-wname-list nil
