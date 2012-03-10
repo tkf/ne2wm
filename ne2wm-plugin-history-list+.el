@@ -166,7 +166,7 @@ function.  This argument is either `e2wm:history-get-next' or
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-other-wname offset)
-   #'ne2wm:history-get-prev))
+   #'e2wm:history-get-prev))
 
 (provide 'ne2wm-plugin-history-list+)
 ;;; ne2wm-plugin-history-list+.el ends here
