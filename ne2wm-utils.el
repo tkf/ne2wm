@@ -22,6 +22,65 @@
 
 ;;; Code:
 
+(require 'e2wm)
+(require 'e2wm-vcs)
+
+;;; Commands
+
+(defun ne2wm:toggle-sub (&optional move-buffer)
+  "Toggle on/off of e2wm sub window.
+
+If the universal prefix argument is given, the current buffer
+will be shown in the next window."
+  (interactive "P")
+  (let ((prev-buf (current-buffer)))
+    (e2wm:aif (e2wm:pst-window-toggle
+               'sub t (e2wm:$pst-main (e2wm:pst-get-instance)))
+        (when move-buffer
+          (wlf:set-buffer (e2wm:pst-get-wm) it prev-buf)))))
+
+
+(defun ne2wm:pst-update-windows-command ()
+  "Reset window configurations.
+
+This is an extend version of `e2wm:pst-update-windows-command'.
+
+Additional feature:
+* Move buffer shown in the main window to the top of the history list.
+"
+  (interactive)
+  (let* ((wm (e2wm:pst-get-wm))
+         (wname (e2wm:$pst-main (e2wm:pst-get-instance)))
+         (buf (wlf:get-buffer wm wname))
+         (curwname (wlf:get-window-name wm (selected-window))))
+    (e2wm:history-add buf)
+    (e2wm:pst-update-windows-command)
+    (e2wm:pst-window-select curwname))) ; avoid changing window focus
+
+
+(defun ne2wm:open-vcs ()
+  "Open VCS perspective depending on the VCS used in the project.
+
+Currently, only Magit (Git) and Monky (Mercurial) are supported."
+  (interactive)
+  (let ((dir default-directory))
+    (cond
+     ;; magit
+     ((and dir (magit-get-top-dir dir))
+      (e2wm:dp-magit))
+     ;; monky
+     ((condition-case err
+          (monky-get-root-dir)
+        (error nil))
+      (e2wm:dp-monky))
+     ;; FIXME: support SVN
+     ;; otherwise
+     (t
+      (message "Not in VCS")))))
+
+
+;;; Misc
+
 (defun ne2wm:load-files (&optional regex dir)
   (let* ((dir (or dir (file-name-directory load-file-name)))
          (regex (or regex ".+"))
