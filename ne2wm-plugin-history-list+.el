@@ -25,13 +25,16 @@
 (eval-when-compile (require 'cl))
 (require 'e2wm)
 
+
 (defvar ne2wm:def-plugin-history-list+-wname-list nil
   "List of the window names to show in the history-list+ plugin.
 Use `ne2wm:def-plugin-history-list+-setup' to set this value.")
 
+
 (defvar ne2wm:def-plugin-history-list+-pointer-list nil
   "List of the window markers to use in the history-list+ plugin.
 Use `ne2wm:def-plugin-history-list+-setup' to set this value.")
+
 
 (make-variable-frame-local 'ne2wm:def-plugin-history-list+-wname-list)
 (make-variable-frame-local 'ne2wm:def-plugin-history-list+-pointer-list)
@@ -100,9 +103,12 @@ Example: '(\"<--\" \"-->\")."
                            cnt name
                            (if (buffer-modified-p h) "*" ""))
                           (cond
-                           ((eql h main-buf)   'e2wm:face-history-list-select1)
-                           ((eql h second-buf) 'e2wm:face-history-list-select2)
-                           ((memql h buf-list) 'e2wm:face-history-list-normal)
+                           ((eql h main-buf)
+                            'e2wm:face-history-list-select1)
+                           ((eql h second-buf)
+                            'e2wm:face-history-list-select2)
+                           ((memql h buf-list)
+                            'e2wm:face-history-list-normal)
                            (t
                             'e2wm:face-history-list-normal)))
                          'e2wm:buffer h))
@@ -117,9 +123,11 @@ Example: '(\"<--\" \"-->\")."
     (wlf:set-buffer wm wname buf)
     (when win (set-window-point win current-pos))))
 
+
 (e2wm:plugin-register 'history-list+
                      "History List+"
                      'ne2wm:def-plugin-history-list+)
+
 
 (defun ne2wm:def-plugin-history-list+-current-wname ()
   "Return current window name if it is found in the list
@@ -130,11 +138,13 @@ Example: '(\"<--\" \"-->\")."
           when (eql curwin (wlf:get-window wm wname))
           return wname)))
 
+
 (defun ne2wm:def-plugin-history-list+-current-or-nth-wname (wnum)
   "Return current or WNUM-th window name if it is found in the list."
   (if wnum
       (nth (1- wnum) ne2wm:def-plugin-history-list+-wname-list)
     (ne2wm:def-plugin-history-list+-current-wname)))
+
 
 (defun ne2wm:def-plugin-history-list+-other-wname (&optional offset)
   "Return window name of the \"other\" window.
@@ -148,6 +158,7 @@ one defined in the list `ne2wm:def-plugin-history-list+-wname-list'."
                    (length (memql wname wname-list)))))
     (nth (% (+ (or offset 1) index) len) wname-list)))
 
+
 (defun ne2wm:def-plugin-history-list+-update (wname direcfunc)
   "Change the buffer of the WNAME window to the previous/next one.
 
@@ -159,11 +170,13 @@ function.  This argument is either `e2wm:history-get-next' or
   (e2wm:plugin-exec-update-by-plugin-name
    (selected-frame) (e2wm:pst-get-wm) 'history-list+))
 
+
 (defun ne2wm:def-plugin-history-list+-forward-current-command (&optional wnum)
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-current-or-nth-wname wnum)
    #'e2wm:history-get-next))
+
 
 (defun ne2wm:def-plugin-history-list+-back-current-command (&optional wnum)
   (interactive "P")
@@ -171,17 +184,20 @@ function.  This argument is either `e2wm:history-get-next' or
    (ne2wm:def-plugin-history-list+-current-or-nth-wname wnum)
    #'e2wm:history-get-prev))
 
+
 (defun ne2wm:def-plugin-history-list+-forward-other-command (&optional offset)
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-other-wname offset)
    #'e2wm:history-get-next))
 
+
 (defun ne2wm:def-plugin-history-list+-back-other-command (&optional offset)
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-other-wname offset)
    #'e2wm:history-get-prev))
+
 
 (provide 'ne2wm-plugin-history-list+)
 ;;; ne2wm-plugin-history-list+.el ends here
