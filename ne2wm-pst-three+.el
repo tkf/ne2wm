@@ -180,5 +180,34 @@
   (e2wm:pst-change 'three+))
 
 
+(defun ne2wm:dp-three+-setup-two-columns ()
+  "Setup helper function to use three+ like two+.
+
+Call this function in your Emacs setup to use three+ in two
+columns window configuration.  This is useful in small display.
+Note that imenu plugin will not be shown."
+
+  (setq
+   ne2wm:c-three+-recipe
+   '(- (:upper-size-ratio 0.8)
+       (| (- (:upper-size-ratio 0.5)
+             left (- (:upper-size-ratio)
+                     third imenu))
+          (- (:upper-size-ratio 0.8)
+             right (- (:lower-size 0.05) history org-clock)))
+       sub))
+
+  (setq
+   ne2wm:c-three+-winfo
+   '((:name left)
+     (:name right)
+     (:name third)
+     (:name imenu :plugin imenu :default-hide t)
+     (:name history :plugin history-list+)
+     (:name org-clock :plugin org-clock)
+     (:name sub :default-hide t))))
+
+
+
 (provide 'ne2wm-pst-three+)
 ;;; ne2wm-pst-three+.el ends here
