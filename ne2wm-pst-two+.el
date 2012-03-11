@@ -62,7 +62,7 @@
 
 (defun ne2wm:dp-two+-popup (buf)
   "Extended version of `e2wm:dp-two-popup'."
-  (e2wm:message "#DP TWO popup : %s" buf)
+  (e2wm:message "#DP TWO+ popup : %s" buf)
   (let ((buf-name (buffer-name buf)))
     (cond
      ;; Buffer specific configurations:
@@ -109,7 +109,7 @@
 
 This function treats howm windows.  To see how howm creates its
 window, see `riffle-setup-window-configuration'."
-  (e2wm:message "#DP TWO switch : %s" buf)
+  (e2wm:message "#DP TWO+ switch : %s" buf)
   (let ((wm (e2wm:pst-get-wm))
         (curwin (selected-window))
         (buf-name (buffer-name buf)))
