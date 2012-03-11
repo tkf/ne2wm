@@ -31,8 +31,6 @@
   :name   'code+
   :extend 'code
   :title  "Code+"
-  ;; workaround: e2wm only support 1st order inheritance
-  :update 'e2wm:dp-base-update
   :popup  'ne2wm:dp-code+-popup))
 
 

@@ -47,8 +47,6 @@
    :name   'two+
    :extend 'two
    :title  "Two Columns+"
-   ;; workaround: e2wm only support 1st order inheritance
-   :update 'e2wm:dp-base-update
    :init   'ne2wm:dp-two+-init
    :switch 'ne2wm:dp-two+-switch
    :popup  'ne2wm:dp-two+-popup))
