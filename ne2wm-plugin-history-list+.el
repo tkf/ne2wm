@@ -172,6 +172,14 @@ function.  This argument is either `e2wm:history-get-next' or
 
 
 (defun ne2wm:def-plugin-history-list+-forward-current-command (&optional wnum)
+  "Change the buffer of the current window to the next item in the history.
+
+When the numerical prefix argument WNUM is given, change the WNUM-th
+window in the `ne2wm:def-plugin-history-list+-wname-list'. Note that
+WNUM is 1-origin.
+
+Use `ne2wm:def-plugin-history-list+-forward-current-command' to
+change the buffer to the opposite direction in the history list."
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-current-or-nth-wname wnum)
@@ -179,6 +187,9 @@ function.  This argument is either `e2wm:history-get-next' or
 
 
 (defun ne2wm:def-plugin-history-list+-back-current-command (&optional wnum)
+  "Change the buffer of the current window to the previous item in the history.
+
+See also: `ne2wm:def-plugin-history-list+-forward-current-command'."
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-current-or-nth-wname wnum)
@@ -186,6 +197,17 @@ function.  This argument is either `e2wm:history-get-next' or
 
 
 (defun ne2wm:def-plugin-history-list+-forward-other-command (&optional offset)
+  "Change the buffer of the other window to the next item in the history.
+
+Other window is the next window of the current window in the
+window list `ne2wm:def-plugin-history-list+-wname-list'.
+
+When the numeric prefix argument OFFSET is given, other window is
+OFFSET-th next window in the window list
+`ne2wm:def-plugin-history-list+-wname-list'.
+
+Use `ne2wm:def-plugin-history-list+-back-other-command' to
+change the buffer to the opposite direction in the history list."
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-other-wname offset)
@@ -193,6 +215,9 @@ function.  This argument is either `e2wm:history-get-next' or
 
 
 (defun ne2wm:def-plugin-history-list+-back-other-command (&optional offset)
+  "Change the buffer of the other window to the previous item in the history.
+
+See also: `ne2wm:def-plugin-history-list+-forward-other-command'."
   (interactive "P")
   (ne2wm:def-plugin-history-list+-update
    (ne2wm:def-plugin-history-list+-other-wname offset)
