@@ -35,7 +35,7 @@
 
 
 (defun ne2wm:dp-code+-popup (buffer)
-  (flet ((e2wm:dp-code-popup (b) (ne2wm:popup-sub-appropriate-select b)))
+  (flet ((e2wm:dp-code-popup-sub (b) (ne2wm:popup-sub-appropriate-select b)))
     (e2wm:$pst-class-super)))
 
 
