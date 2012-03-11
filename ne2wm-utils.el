@@ -25,6 +25,9 @@
 (require 'e2wm)
 (require 'e2wm-vcs)
 
+(require 'ne2wm-pst-magit+)
+(require 'ne2wm-pst-monky+)
+
 ;;; Commands
 
 (defun ne2wm:toggle-sub (&optional move-buffer)
@@ -67,12 +70,12 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
     (cond
      ;; magit
      ((and dir (magit-get-top-dir dir))
-      (e2wm:dp-magit))
+      (ne2wm:dp-magit+))
      ;; monky
      ((condition-case err
           (monky-get-root-dir)
         (error nil))
-      (e2wm:dp-monky))
+      (ne2wm:dp-monky+))
      ;; FIXME: support SVN
      ;; otherwise
      (t

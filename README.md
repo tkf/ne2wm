@@ -29,6 +29,8 @@ cog.outl('')
 ]]]-->
 
 + ne2wm-pst-code+.el --- code+ perspective
++ ne2wm-pst-magit+.el --- magit+ perspective
++ ne2wm-pst-monky+.el --- monky+ perspective
 + ne2wm-pst-one+.el --- one+ perspective
 + ne2wm-pst-three+.el --- three+ perspective
 + ne2wm-pst-two+.el --- two+ perspective
