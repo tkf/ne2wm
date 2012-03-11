@@ -39,3 +39,28 @@ cog.outl('')
 + ne2wm-plugin-org-clock.el --- org-clock plugin
 
 <!--[[[end]]]-->
+
+
+## Screenshots
+
+### Rotate windows -- `ne2wm:win-ring-rotate`
+
+This is how `ne2wm:win-ring-rotate` command works in the three+ perspective.
+Focus stays in the second column window (dark background):
+
+![win-ring-rotate](http://i.imgur.com/lnwYa.gif)
+
+
+### Move the current window forward -- `ne2wm:win-ring-push`
+
+This is how `ne2wm:win-ring-push` command works in the three+ perspective.
+This time, the "1" window is always selected:
+
+![win-ring-push](http://i.imgur.com/Mt1WI.gif)
+
+
+### org-clock plugin
+
+When you clock-in (`C-c C-x C-i`) an org node, this window will pop-up:
+
+![org-clock](http://i.imgur.com/IZMIj.png)
