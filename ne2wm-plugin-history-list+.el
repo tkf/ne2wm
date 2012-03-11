@@ -168,11 +168,8 @@ Example: '(\"<--\" \"-->\")."
 (defun ne2wm:def-plugin-history-list+-current-wname ()
   "Return current window name if it is found in the list
 `ne2wm:def-plugin-history-list+-wname-list'."
-  (let ((wm (e2wm:pst-get-wm))
-        (curwin (selected-window)))
-    (loop for wname in ne2wm:def-plugin-history-list+-wname-list
-          when (eql curwin (wlf:get-window wm wname))
-          return wname)))
+  (ne2wm:current-wname-in-list
+   ne2wm:def-plugin-history-list+-wname-list))
 
 
 (defun ne2wm:def-plugin-history-list+-current-or-nth-wname (wnum)
