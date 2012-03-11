@@ -22,7 +22,8 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl)
+                   (require 'howm nil t))
 (require 'e2wm)
 
 
@@ -52,6 +53,34 @@ POINTERS ist the list of pointers (string).
 Example: '(\"<--\" \"-->\")."
   (setq ne2wm:def-plugin-history-list+-wname-list wnames)
   (setq ne2wm:def-plugin-history-list+-pointer-list pointers))
+
+
+(defun ne2wm:def-plugin-history-list+-howm-title (buffer-or-name)
+  "[internal] helper for `ne2wm:def-plugin-history-list+-pretty-buffer-name'."
+  (let ((buffer (get-buffer buffer-or-name)))
+    (when (and (featurep 'howm) buffer)
+      (save-excursion
+        (with-current-buffer buffer
+          (when howm-mode
+            (goto-char (point-min))
+            (e2wm:aif (howm-title-at-current-point)
+                (concat "= " it " - " (buffer-name buffer)))))))))
+
+
+(defun ne2wm:def-plugin-history-list+-pretty-buffer-name (buffer-or-name)
+  "Prettify buffer-name of the BUFFER-OR-NAME."
+  (let* ((buffer (get-buffer buffer-or-name))
+         (name (buffer-name buffer))
+         (howm-title))
+    (cond
+     ((null buffer)
+      buffer-or-name)                   ; should I?
+     ((setq howm-title
+            (ne2wm:def-plugin-history-list+-howm-title buffer))
+      howm-title)
+     ((eql (buffer-local-value 'major-mode buffer) 'dired-mode)
+      (concat name "/"))
+     (t name))))
 
 
 (defun ne2wm:def-plugin-history-list+ (frame wm winfo)
@@ -93,7 +122,8 @@ Example: '(\"<--\" \"-->\")."
                    (second-buf (nth 1 buf-list))
                    (cnt 1))
               (loop for h in (append history-backup history)
-                    for name = (if (stringp h) h (buffer-name h))
+                    for name =
+                    (ne2wm:def-plugin-history-list+-pretty-buffer-name h)
                     do (insert
                         (e2wm:tp
                          (e2wm:rt
