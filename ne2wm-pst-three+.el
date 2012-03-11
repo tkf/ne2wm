@@ -53,7 +53,9 @@
    '(("C-." . ne2wm:def-plugin-history-list+-forward-current-command)
      ("C-," . ne2wm:def-plugin-history-list+-back-current-command)
      ("C->" . ne2wm:def-plugin-history-list+-forward-other-command)
-     ("C-<" . ne2wm:def-plugin-history-list+-back-other-command))
+     ("C-<" . ne2wm:def-plugin-history-list+-back-other-command)
+     ("M-\\" . ne2wm:win-ring-push)
+     ("M-~"  . ne2wm:win-ring-rotate))
      e2wm:prefix-key))
 
 
@@ -87,8 +89,8 @@
 
 
 (defun ne2wm:dp-three+-start (wm-unused)
-  (ne2wm:def-plugin-history-list+-setup '(left right third)
-                                        '("<" ">" "v")))
+  (setq ne2wm:win-ring '(left right third))
+  (ne2wm:def-plugin-history-list+-setup ne2wm:win-ring '("<" ">" "v")))
 
 
 (defun ne2wm:dp-three+-switch/pull (buf)

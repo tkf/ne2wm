@@ -22,6 +22,7 @@
 
 ;;; Code:
 
+(eval-when-compile (require 'cl))
 (require 'e2wm)
 (require 'e2wm-vcs)
 
@@ -80,6 +81,70 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
      ;; otherwise
      (t
       (message "Not in VCS")))))
+
+
+(defvar ne2wm:win-ring nil)
+(make-variable-frame-local 'ne2wm:win-ring)
+
+(defun ne2wm:rorate-list-right (seq offset)
+  (if (<= offset 0)
+      seq
+    (ne2wm:rorate-list-right
+     (append (last seq) (nbutlast seq)) (1- offset))))
+
+(defun ne2wm:rorate-list-left (seq offset)
+  (if (<= offset 0)
+      seq
+    (ne2wm:rorate-list-left (append (cdr seq) (list (car seq))) (1- offset))))
+
+(defun ne2wm:rorate-list (seq &optional offset)
+  "[internal]"
+  (setq offset (or offset 1))
+  (if (<= offset 0)
+      (ne2wm:rorate-list-left seq (- offset))
+    (ne2wm:rorate-list-right seq offset)))
+
+(defun ne2wm:win-ring-rotate ()
+  (interactive)                         ; FIXME: use prefix arg
+  (mapcar* #'e2wm:pst-buffer-set
+           ne2wm:win-ring
+           (ne2wm:rorate-list (mapcar #'e2wm:pst-buffer-get
+                                      ne2wm:win-ring)))
+  (e2wm:pst-update-windows))
+
+
+
+(defun ne2wm:win-ring-push ()
+  (interactive)                         ; FIXME: use prefix arg
+  (let* ((cur-wname (ne2wm:current-wname-in-list ne2wm:win-ring))
+         (next-wname
+          (when cur-wname
+            (e2wm:aif (loop for wname in ne2wm:win-ring
+                            for next-wname in (cdr ne2wm:win-ring)
+                            when (eql cur-wname wname)
+                            return next-wname)
+                it
+              (car ne2wm:win-ring)))))
+    (if (not next-wname)
+        (message "Not in win-ring windows %S." ne2wm:win-ring)
+      (let ((cur-buf  (e2wm:pst-buffer-get cur-wname))
+            (next-buf (e2wm:pst-buffer-get next-wname)))
+        (e2wm:pst-buffer-set cur-wname next-buf)
+        (e2wm:pst-buffer-set next-wname cur-buf nil t))
+      (e2wm:pst-update-windows))))
+
+
+
+;;; Utility functions for e2wm
+
+(defun ne2wm:current-wname-in-list (wname-list)
+  "Return current window name if it is found in WNAME-LIST."
+  (let ((wm (e2wm:pst-get-wm))
+        (curwin (selected-window)))
+    (loop for wname in wname-list
+          when (eql curwin (wlf:get-window wm wname))
+          return wname)))
+
 
 
 ;;; Misc
