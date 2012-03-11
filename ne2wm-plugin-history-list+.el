@@ -63,6 +63,11 @@ Example: '(\"<--\" \"-->\")."
          (format "%%%ds %%2s %%s %%s\n"
                  (loop for s in ne2wm:def-plugin-history-list+-pointer-list
                        sum (length s))))
+        (space-list
+         (loop for pointer in ne2wm:def-plugin-history-list+-pointer-list
+               for len = (length pointer)
+               collect (apply #'concat (loop for -no-use- from 1 to len
+                                             collect " "))))
         current-pos)
     (unless (and buf (buffer-live-p buf))
       (setq buf (get-buffer-create " *WM:History+*"))
@@ -99,7 +104,8 @@ Example: '(\"<--\" \"-->\")."
                             (loop for buf in buf-list
                                   for pointer in
                                   ne2wm:def-plugin-history-list+-pointer-list
-                                  collect (if (eql h buf) pointer " ")))
+                                  for space in space-list
+                                  collect (if (eql h buf) pointer space)))
                            cnt name
                            (if (buffer-modified-p h) "*" ""))
                           (cond
