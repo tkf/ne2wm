@@ -25,6 +25,8 @@
 (require 'e2wm)
 (require 'ne2wm-popwin)
 (require 'ne2wm-buffer-p)
+(require 'ne2wm-utils)
+(require 'ne2wm-plugin-history-list+)
 
 
 (defvar ne2wm:c-two+-recipe
@@ -39,7 +41,7 @@
     (:name right)
     (:name org-clock :plugin org-clock)
     (:name sub :buffer "*Help*" :default-hide t)
-    (:name history :plugin history-list2 :default-hide nil)))
+    (:name history :plugin history-list+ :default-hide nil)))
 
 
 (e2wm:pst-class-register
@@ -48,6 +50,7 @@
    :extend 'two
    :title  "Two Columns+"
    :init   'ne2wm:dp-two+-init
+   :start  'ne2wm:dp-two+-start
    :switch 'ne2wm:dp-two+-switch
    :popup  'ne2wm:dp-two+-popup))
 
@@ -56,6 +59,11 @@
   (let ((e2wm:c-two-recipe ne2wm:c-two+-recipe)
         (e2wm:c-two-winfo ne2wm:c-two+-winfo))
     (e2wm:$pst-class-super)))
+
+
+(defun ne2wm:dp-two+-start (wm-unused)
+  (setq ne2wm:win-ring '(left right))
+  (ne2wm:def-plugin-history-list+-setup ne2wm:win-ring '("<<" ">>")))
 
 
 (defun ne2wm:dp-two+-popup (buf)
