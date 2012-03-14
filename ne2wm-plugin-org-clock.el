@@ -43,7 +43,7 @@ This plugin provides two things:
       (setq mode-line-format 'global-mode-string))
     (wlf:set-buffer wm wname buf)
     ;; show org-clock window
-    (if (and (fboundp 'org-clocking-p) (org-clocking-p))
+    (if (ne2wm:def-plugin-org-clock-clocking-p)
         (progn
           (ne2wm:def-plugin-org-clock-insert-tree buf)
           (wlf:show wm wname))
@@ -55,6 +55,10 @@ This plugin provides two things:
 (e2wm:plugin-register 'org-clock
                       "Org clock"
                       'ne2wm:def-plugin-org-clock)
+
+(defun ne2wm:def-plugin-org-clock-clocking-p ()
+  "ne2wm wrapper for `org-clocking-p'."
+  (and (fboundp 'org-clocking-p) (org-clocking-p)))
 
 (defun ne2wm:def-plugin-org-clock-wname ()
   "Return t if current perspective uses org-clock plugin, nil otherwise"
@@ -81,7 +85,7 @@ This plugin provides two things:
 
 (defun ne2wm:def-plugin-org-clock-show-hide ()
   "Show org-clock plugin if clocking a task, hide otherwise"
-  (if (and (fboundp 'org-clocking-p) (org-clocking-p))
+  (if (ne2wm:def-plugin-org-clock-clocking-p)
       (ne2wm:def-plugin-org-clock-show)
     (ne2wm:def-plugin-org-clock-hide)))
 
