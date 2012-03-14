@@ -26,6 +26,10 @@
 (require 'org nil t)
 
 
+(defvar ne2wm:c-plugin-org-clock-enable t
+  "A customize variable to enable/disable org-clock plug-in globally.")
+
+
 (defun ne2wm:def-plugin-org-clock (frame wm winfo)
   "Show clocked-in task and its ancestors
 
@@ -58,14 +62,17 @@ This plugin provides two things:
 
 (defun ne2wm:def-plugin-org-clock-clocking-p ()
   "ne2wm wrapper for `org-clocking-p'."
-  (and (fboundp 'org-clocking-p) (org-clocking-p)))
+  (and ne2wm:c-plugin-org-clock-enable
+       (fboundp 'org-clocking-p)
+       (org-clocking-p)))
 
 (defun ne2wm:def-plugin-org-clock-wname ()
   "Return t if current perspective uses org-clock plugin, nil otherwise"
-  (loop with wm = (e2wm:pst-get-wm)
-        for wname in (mapcar 'wlf:window-name (wlf:wset-winfo-list wm))
-        if (eq 'org-clock (e2wm:pst-window-plugin-get wm wname))
-        return wname))
+  (and ne2wm:c-plugin-org-clock-enable
+       (loop with wm = (e2wm:pst-get-wm)
+             for wname in (mapcar 'wlf:window-name (wlf:wset-winfo-list wm))
+             if (eq 'org-clock (e2wm:pst-window-plugin-get wm wname))
+             return wname)))
 
 (defun ne2wm:def-plugin-org-clock-show ()
   "Show org-clock plugin if available"
