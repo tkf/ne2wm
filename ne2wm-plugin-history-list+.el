@@ -26,6 +26,9 @@
                    (require 'howm nil t))
 (require 'e2wm)
 
+(defvar ne2wm:c-plugin-history-list+-mode-line-format
+  '("-" mode-line-mule-info " " mode-line-position "-%-")
+  "Mode line for history-list+.  See `mode-line-format'.")
 
 (defvar ne2wm:def-plugin-history-list+-wname-list nil
   "List of the window names to show in the history-list+ plugin.
@@ -151,8 +154,7 @@ Example: '(\"<--\" \"-->\")."
                     (incf cnt))
               (goto-char current-pos)
               (setq mode-line-format
-                    '("-" mode-line-mule-info
-                      " " mode-line-position "-%-"))
+                    ne2wm:c-plugin-history-list+-mode-line-format)
               (setq header-line-format
                     (format "Buffer History [%i]" (1- cnt)))))
         (setq buffer-read-only t)))
