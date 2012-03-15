@@ -62,8 +62,8 @@ Example: '(\"<--\" \"-->\")."
   "[internal] helper for `ne2wm:def-plugin-history-list+-pretty-buffer-name'."
   (let ((buffer (get-buffer buffer-or-name)))
     (when (and (featurep 'howm) buffer)
-      (save-excursion
-        (with-current-buffer buffer
+      (with-current-buffer buffer
+        (save-excursion
           (when howm-mode
             (goto-char (point-min))
             (e2wm:aif (howm-title-at-current-point)
