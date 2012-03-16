@@ -145,6 +145,20 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
           when (eql curwin (wlf:get-window wm wname))
           return wname)))
 
+(defun ne2wm:current-wname ()
+  "Return current window name."
+  (let ((wm (e2wm:pst-get-wm))
+        (curwin (selected-window)))
+    (loop for winfo in (wlf:wset-winfo-list wm)
+          for wname = (wlf:window-name winfo)
+          when (eql curwin (wlf:get-window wm wname))
+          return wname)))
+
+(defun ne2wm:pst-buffer-set-current-window (buffer)
+  "Set the BUFFER in the current window."
+  (e2wm:aif (ne2wm:current-wname)
+      (e2wm:pst-buffer-set it buffer)
+    (message "Failed to set the buffer %S in the current window" it)))
 
 
 ;;; Misc
