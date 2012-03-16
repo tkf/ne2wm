@@ -40,8 +40,9 @@ buffer.")
   (target-name cb-init &optional cb-at-target)
   "Go to the buffer named TARGET-NAME or go back to the original buffer.
 
-If the target buffer does not exist, the call back CB-INIT will be
-called. This function must make the target buffer and switch to it.
+If the target buffer does not exist or TARGET-NAME is nil, the
+call back CB-INIT will be called. This function must make the
+target buffer and switch to it.
 The optional argument CB-AT-TARGET is a function to be called when
 the target buffer is shown.
 
@@ -55,8 +56,10 @@ which is buffer local in the *target* buffer."
         (e2wm:aif ne2wm:toggle-buffer-with-callbacks-next-buffer
             (ne2wm:pst-buffer-set-current-window it)
           (message "no next-buffer is set"))
-      (unless (get-buffer target-name)
-        (funcall cb-init))
+      (unless (and target-name (get-buffer target-name))
+        (funcall cb-init)
+        (unless target-name
+          (setq target-name (current-buffer))))
       (ne2wm:pst-buffer-set-current-window target-name)
       (with-current-buffer target-name
         (setq ne2wm:toggle-buffer-with-callbacks-next-buffer original-buffer)
@@ -74,13 +77,11 @@ the shell will be changed to the directory of the buffer."
            ;; `term-ansi-buffer-name' is actually a buffer; strange!
            (buffer-name term-ansi-buffer-name)))
         (cd-cmd (format "cd %s\n" default-directory)))
-    (if (not target-buffer)
-        (message "term-ansi-buffer-name is not set")
-      (ne2wm:toggle-buffer-with-callbacks
-       target-buffer
-       (lambda () (ansi-term explicit-shell-file-name))
-       (when change-directory
-         (lambda () (term-send-raw-string cd-cmd)))))))
+    (ne2wm:toggle-buffer-with-callbacks
+     target-buffer
+     (lambda () (ansi-term explicit-shell-file-name))
+     (when change-directory
+       (lambda () (term-send-raw-string cd-cmd))))))
 
 
 (provide 'ne2wm-shell)
