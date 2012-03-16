@@ -23,6 +23,7 @@
 ;;; Code:
 
 (require 'ne2wm-utils)
+(require 'ne2wm-shell)
 (ne2wm:load-files "^ne2wm-plugin-.*\\.el$")
 (ne2wm:load-files "^ne2wm-pst-.*\\.el$")
 

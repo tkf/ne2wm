@@ -20,7 +20,8 @@ You can load specific files if you like.
 import cog
 from glob import glob
 files = (sorted(glob('ne2wm-pst-*.el')) +
-         sorted(glob('ne2wm-plugin-*.el')))
+         sorted(glob('ne2wm-plugin-*.el')) +
+         ['ne2wm-utils.el', 'ne2wm-shell.el'])
 line0 = (file(f).readline().strip(';;;').strip() for f in files)
 
 cog.outl('')
@@ -37,6 +38,8 @@ cog.outl('')
 + ne2wm-pst-vc-annotate.el --- a perspective to use vc-annotate command
 + ne2wm-plugin-history-list+.el --- history-list plugin for many windows
 + ne2wm-plugin-org-clock.el --- org-clock plugin
++ ne2wm-utils.el --- utility functions
++ ne2wm-shell.el --- shell utilities for e2wm
 
 <!--[[[end]]]-->
 
