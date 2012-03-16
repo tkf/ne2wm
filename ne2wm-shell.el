@@ -73,7 +73,8 @@ When the prefix argument is given, current working directory in
 the shell will be changed to the directory of the buffer."
   (interactive "P")
   (let ((target-buffer
-         (when (boundp 'term-ansi-buffer-name)
+         (when (and (boundp 'term-ansi-buffer-name)
+                    term-ansi-buffer-name)
            ;; `term-ansi-buffer-name' is actually a buffer; strange!
            (buffer-name term-ansi-buffer-name)))
         (cd-cmd (format "cd %s\n" default-directory)))
