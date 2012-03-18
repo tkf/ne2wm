@@ -259,5 +259,30 @@ See also: `ne2wm:def-plugin-history-list+-forward-other-command'."
    #'e2wm:history-get-prev))
 
 
+(defun ne2wm:def-plugin-history-list+-goto-nth-command (&optional n)
+  "Go to Nth buffer in the history. Use prefix argument to specify."
+  (interactive "p")
+  (message "Switch to %s-th buffer" n)
+  (e2wm:pst-buffer-set
+   (ne2wm:def-plugin-history-list+-current-wname)
+   (ne2wm:history-get-nth (1- n)))
+  (e2wm:plugin-exec-update-by-plugin-name
+   (selected-frame) (e2wm:pst-get-wm) 'history-list+))
+
+
+(defun ne2wm:history-get-nth (n &optional fallback-last)
+  "Return Nth buffer in the history.
+
+If Nth buffer does not exists and FALLBACK-LAST is non-nil,
+return the last buffer."
+  (let* ((history (append (reverse (e2wm:history-get-backup))
+                          (e2wm:history-get)))
+         (buffer (nth n history)))
+    (if buffer
+        buffer
+      (when fallback-last
+        (last history)))))
+
+
 (provide 'ne2wm-plugin-history-list+)
 ;;; ne2wm-plugin-history-list+.el ends here
