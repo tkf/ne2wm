@@ -138,7 +138,8 @@ window, see `riffle-setup-window-configuration'."
         (e2wm:pst-show-history-main)
         t)
        (t
-        nil)))
+        (e2wm:pst-buffer-set 'left buf)
+        t)))
      ;; I'm in the right window
      ((eql curwin (wlf:get-window wm 'right))
       (e2wm:pst-buffer-set 'right buf)
