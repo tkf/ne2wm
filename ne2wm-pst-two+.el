@@ -142,7 +142,7 @@ window, see `riffle-setup-window-configuration'."
      ;; I'm in the right window
      ((eql curwin (wlf:get-window wm 'right))
       (e2wm:pst-buffer-set 'right buf)
-      (e2wm:dp-two-update-history-list)
+      (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
       nil)
      ;; do the default otherwise
      (t nil))))
