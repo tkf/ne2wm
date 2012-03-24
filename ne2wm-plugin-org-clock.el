@@ -68,11 +68,13 @@ This plugin provides two things:
 
 (defun ne2wm:def-plugin-org-clock-wname ()
   "Return t if current perspective uses org-clock plugin, nil otherwise"
-  (and ne2wm:c-plugin-org-clock-enable
-       (loop with wm = (e2wm:pst-get-wm)
-             for wname in (mapcar 'wlf:window-name (wlf:wset-winfo-list wm))
-             if (eq 'org-clock (e2wm:pst-window-plugin-get wm wname))
-             return wname)))
+  (let ((wm (when (e2wm:pst-get-instance) ; check if e2wm is active
+              (e2wm:pst-get-wm))))
+    (and wm
+         ne2wm:c-plugin-org-clock-enable
+         (loop for wname in (mapcar 'wlf:window-name (wlf:wset-winfo-list wm))
+               if (eq 'org-clock (e2wm:pst-window-plugin-get wm wname))
+               return wname))))
 
 (defun ne2wm:def-plugin-org-clock-show ()
   "Show org-clock plugin if available"
