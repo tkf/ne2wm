@@ -93,8 +93,8 @@
   (ne2wm:def-plugin-history-list+-setup ne2wm:win-ring '("<" ">" "v")))
 
 
-(defun ne2wm:dp-three+-switch/pull (buf)
-  "Common part used in switch and pull"
+(defun ne2wm:dp-three+-switch/popup (buf)
+  "Common part used in switch and popup"
   (cond
    ((ne2wm:vcs-status-buffer-p buf)
     ;; "push" the buffer in the `left' to the `third'
@@ -125,7 +125,7 @@
 (defun ne2wm:dp-three+-switch (buf)
   (e2wm:message "#DP THREE+ switch : %s" buf)
   (cond
-   ((ne2wm:dp-three+-switch/pull buf)
+   ((ne2wm:dp-three+-switch/popup buf)
     t)
    (t
     (unless (ne2wm:dp-two+-switch buf)
@@ -148,7 +148,7 @@
         (curwin (selected-window)))
     (cond
      ;; Buffer specific configurations:
-     ((ne2wm:dp-three+-switch/pull buf)
+     ((ne2wm:dp-three+-switch/popup buf)
       t)
      ((equal "*info*" buf-name)
       (e2wm:message ">>> (equal \"*info*\" buf-name='%S')" buf-name)
