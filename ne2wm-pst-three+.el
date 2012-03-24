@@ -104,7 +104,7 @@
         ;; (wlf:get-buffer wm 'left) does not work..
         ;; it returns the `buf' buffer.
         (when (and (eql curwin (wlf:get-window wm 'left))
-                   (setq editingbuf (e2wm:history-get-main-buffer)))
+                   (setq editingbuf (window-buffer curwin)))
           (e2wm:pst-buffer-set 'third editingbuf)))
       ;; then show this buffer in the `left'
       (e2wm:pst-buffer-set 'left buf t t)
