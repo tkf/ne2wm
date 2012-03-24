@@ -105,19 +105,18 @@
       ;; it returns the `buf' buffer.
       (when (and (eql curwin (wlf:get-window wm 'left))
                  (setq editingbuf (e2wm:history-get-main-buffer)))
-        (message "editingbuf = %S" editingbuf)
         (e2wm:pst-buffer-set 'third editingbuf)))
     ;; then show this buffer in the `left'
-    (e2wm:pst-buffer-set 'left buf t t) ; != two
+    (e2wm:pst-buffer-set 'left buf t t)
     t)
    ((ne2wm:vcs-log-buffer-p buf)
-    (e2wm:pst-buffer-set 'third buf t t) ; != two
+    (e2wm:pst-buffer-set 'third buf t t)
     t)
    ((ne2wm:howm-contents-buffer-p buf)
     (e2wm:pst-buffer-set 'right buf t)
     t)
    ((ne2wm:vcs-commit-buffer-p buf)
-    (e2wm:pst-buffer-set 'right buf t) ; != two
+    (e2wm:pst-buffer-set 'right buf t)
     t)
    (t nil)))
 
@@ -152,12 +151,12 @@
       t)
      ((equal "*info*" buf-name)
       (e2wm:message ">>> (equal \"*info*\" buf-name='%S')" buf-name)
-      (e2wm:pst-buffer-set 'third buf t t) ; != two
+      (e2wm:pst-buffer-set 'third buf t t)
       t)
      ;; More generic configurations:
      ((e2wm:document-buffer-p buf)
       (e2wm:message ">>> (e2wm:document-buffer-p buf='%S')" buf)
-      (e2wm:pst-buffer-set 'third buf t t) ; != two
+      (e2wm:pst-buffer-set 'third buf t t)
       t)
      ((e2wm:history-recordable-p buf)
       (e2wm:message ">>> (e2wm:history-recordable-p buf='%S')" buf)
