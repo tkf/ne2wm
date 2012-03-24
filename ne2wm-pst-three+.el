@@ -95,30 +95,34 @@
 
 (defun ne2wm:dp-three+-switch/popup (buf)
   "Common part used in switch and popup"
-  (cond
-   ((ne2wm:vcs-status-buffer-p buf)
-    ;; "push" the buffer in the `left' to the `third'
-    (let ((wm (e2wm:pst-get-wm))
-          (curwin (selected-window))
-          (editingbuf))
-      ;; (wlf:get-buffer wm 'left) does not work..
-      ;; it returns the `buf' buffer.
-      (when (and (eql curwin (wlf:get-window wm 'left))
-                 (setq editingbuf (e2wm:history-get-main-buffer)))
-        (e2wm:pst-buffer-set 'third editingbuf)))
-    ;; then show this buffer in the `left'
-    (e2wm:pst-buffer-set 'left buf t t)
-    t)
-   ((ne2wm:vcs-log-buffer-p buf)
-    (e2wm:pst-buffer-set 'third buf t t)
-    t)
-   ((ne2wm:howm-contents-buffer-p buf)
-    (e2wm:pst-buffer-set 'right buf t)
-    t)
-   ((ne2wm:vcs-commit-buffer-p buf)
-    (e2wm:pst-buffer-set 'right buf t)
-    t)
-   (t nil)))
+  (let ((wm (e2wm:pst-get-wm))
+        (curwin (selected-window)))
+    (cond
+     ((ne2wm:vcs-status-buffer-p buf)
+      ;; "push" the buffer in the `left' to the `third'
+      (let (editingbuf)
+        ;; (wlf:get-buffer wm 'left) does not work..
+        ;; it returns the `buf' buffer.
+        (when (and (eql curwin (wlf:get-window wm 'left))
+                   (setq editingbuf (e2wm:history-get-main-buffer)))
+          (e2wm:pst-buffer-set 'third editingbuf)))
+      ;; then show this buffer in the `left'
+      (e2wm:pst-buffer-set 'left buf t t)
+      (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
+      t)
+     ((ne2wm:vcs-log-buffer-p buf)
+      (e2wm:pst-buffer-set 'third buf t t)
+      (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
+      t)
+     ((ne2wm:howm-contents-buffer-p buf)
+      (e2wm:pst-buffer-set 'right buf t)
+      (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
+      t)
+     ((ne2wm:vcs-commit-buffer-p buf)
+      (e2wm:pst-buffer-set 'right buf t)
+      (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
+      t)
+     (t nil))))
 
 
 (defun ne2wm:dp-three+-switch (buf)
@@ -134,7 +138,7 @@
          ;; in the `third' window
          ((eql curwin (wlf:get-window wm 'third))
           (e2wm:pst-buffer-set 'third buf)
-          (e2wm:dp-two-update-history-list)
+          (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
           t)
          ;; otherwise
          (t nil)))))))
