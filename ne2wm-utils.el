@@ -113,18 +113,30 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
   (e2wm:pst-update-windows))
 
 
+(defun ne2wm:find-next-in-seq (seq item &optional offset)
+  "[internal]  Return OFFSET-next position from ITEM in SEQ.
 
-(defun ne2wm:win-ring-push ()
-  (interactive)                         ; FIXME: use prefix arg
+If OFFSET is omitted or nil, it is assumed to be 1.
+
+Examples:
+  (ne2wm:find-next-in-seq '(0 1 2 3) 1)     ; => 2
+  (ne2wm:find-next-in-seq '(0 1 2 3) 3)     ; => 0
+  (ne2wm:find-next-in-seq '(0 1 2 3) 1 2)   ; => 3
+  (ne2wm:find-next-in-seq '(0 1 2 3) 1 -1)  ; => 0
+"
+  (nth (loop for current in seq
+             for i from 0
+             when (eql current item)
+             return (mod (+ i (or offset 1)) (length seq)))
+       seq))
+
+
+(defun ne2wm:win-ring-push (arg)
+  (interactive "p")
   (let* ((cur-wname (ne2wm:current-wname-in-list ne2wm:win-ring))
          (next-wname
           (when cur-wname
-            (e2wm:aif (loop for wname in ne2wm:win-ring
-                            for next-wname in (cdr ne2wm:win-ring)
-                            when (eql cur-wname wname)
-                            return next-wname)
-                it
-              (car ne2wm:win-ring)))))
+            (ne2wm:find-next-in-seq ne2wm:win-ring cur-wname arg))))
     (if (not next-wname)
         (message "Not in win-ring windows %S." ne2wm:win-ring)
       (let ((cur-buf  (e2wm:pst-buffer-get cur-wname))
