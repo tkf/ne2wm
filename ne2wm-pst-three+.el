@@ -99,14 +99,6 @@
         (curwin (selected-window)))
     (cond
      ((ne2wm:vcs-status-buffer-p buf)
-      ;; "push" the buffer in the `left' to the `third'
-      (let (editingbuf)
-        ;; (wlf:get-buffer wm 'left) does not work..
-        ;; it returns the `buf' buffer.
-        (when (and (eql curwin (wlf:get-window wm 'left))
-                   (setq editingbuf (window-buffer curwin)))
-          (e2wm:pst-buffer-set 'third editingbuf)))
-      ;; then show this buffer in the `left'
       (e2wm:pst-buffer-set 'left buf t t)
       (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
       t)
