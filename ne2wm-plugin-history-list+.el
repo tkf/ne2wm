@@ -44,6 +44,26 @@ Use `ne2wm:def-plugin-history-list+-setup' to set this value.")
 (make-variable-frame-local 'ne2wm:def-plugin-history-list+-pointer-list)
 
 
+(defface ne2wm:face-history-list+-normal
+  '((((class color) (background light))
+     (:foreground "DarkSlateBlue"))
+    (((class color) (background dark))
+     (:foreground "LightSlateBlue")))
+  "Face for ne2wm history list+." :group 'e2wm)
+
+(defface ne2wm:face-history-list+-select1
+  '((t :foreground "OrangeRed" :background "Lightsteelblue1"))
+  "Face for ne2wm history list+." :group 'e2wm)
+
+(defface ne2wm:face-history-list+-select2
+  '((t :foreground "Blue" :background "WhiteSmoke"))
+  "Face for ne2wm history list+." :group 'e2wm)
+
+(defface ne2wm:face-history-list+-select3
+  '((t :foreground "OliveDrab4" :background "DarkSeaGreen1"))
+  "Face for ne2wm history list+." :group 'e2wm)
+
+
 (defun ne2wm:def-plugin-history-list+-setup (wnames pointers)
   "Setup history-list+ for current perspective.
 
@@ -123,6 +143,7 @@ Example: '(\"<--\" \"-->\")."
                               ne2wm:def-plugin-history-list+-wname-list))
                    (main-buf   (nth 0 buf-list))
                    (second-buf (nth 1 buf-list))
+                   (third-buf  (nth 2 buf-list))
                    (cnt 1))
               (loop for h in (append history-backup history)
                     for name =
@@ -143,13 +164,15 @@ Example: '(\"<--\" \"-->\")."
                            (if (buffer-modified-p h) "*" ""))
                           (cond
                            ((eql h main-buf)
-                            'e2wm:face-history-list-select1)
+                            'ne2wm:face-history-list+-select1)
                            ((eql h second-buf)
-                            'e2wm:face-history-list-select2)
+                            'ne2wm:face-history-list+-select2)
+                           ((eql h third-buf)
+                            'ne2wm:face-history-list+-select3)
                            ((memql h buf-list)
-                            'e2wm:face-history-list-normal)
+                            'ne2wm:face-history-list+-normal)
                            (t
-                            'e2wm:face-history-list-normal)))
+                            'ne2wm:face-history-list+-normal)))
                          'e2wm:buffer h))
                     (incf cnt))
               (goto-char current-pos)
