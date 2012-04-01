@@ -29,7 +29,22 @@
 (eval-when-compile (require 'magit))
 
 
-(defvar ne2wm:c-magit+-recipe e2wm:c-magit-recipe)
+(defvar ne2wm:c-magit+-recipe-wide
+  '(| (:left-size-ratio 0.22)
+      (- (:upper-size-ratio 0.8)
+         (- (:upper-size-ratio 0.5) branches files) history)
+      (| (:left-size-ratio 0.666)
+         (| (:left-size-ratio 0.5)
+            (- (:upper-size-ratio 0.7) status sub)
+            main) logs)))
+
+
+(defun ne2wm:c-magit+-recipe-apropos ()
+  (cond
+   ((> (frame-width) 280) ne2wm:c-magit+-recipe-wide)
+   (t e2wm:c-magit-recipe)))
+
+(defvar ne2wm:c-magit+-recipe #'ne2wm:c-magit+-recipe-apropos)
 (defvar ne2wm:c-magit+-winfo e2wm:c-magit-winfo)
 
 
