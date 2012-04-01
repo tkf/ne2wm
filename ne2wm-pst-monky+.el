@@ -30,7 +30,7 @@
 (eval-when-compile (require 'monky nil t))
 
 
-(defvar ne2wm:c-monky+-recipe #'ne2wm:c-magit-recipe-apropos)
+(defvar ne2wm:c-monky+-recipe #'ne2wm:c-magit+-recipe-apropos)
 (defvar ne2wm:c-monky+-winfo e2wm:c-monky-winfo)
 
 
