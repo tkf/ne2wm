@@ -23,7 +23,14 @@
 ;;; Code:
 
 (require 'e2wm)
+(require 'e2wm-vcs)
 (require 'ne2wm-popwin)
+(require 'ne2wm-core)
+(eval-when-compile (require 'magit))
+
+
+(defvar ne2wm:c-magit+-recipe e2wm:c-magit-recipe)
+(defvar ne2wm:c-magit+-winfo e2wm:c-magit-winfo)
 
 
 (e2wm:pst-class-register
@@ -31,8 +38,13 @@
   :name   'magit+
   :extend 'magit
   :title  "Magit+"
+  :init   'ne2wm:dp-magit+-init
   :popup  'ne2wm:dp-magit+-popup))
 
+(defun ne2wm:dp-magit+-init ()
+  (let ((e2wm:c-magit-recipe (ne2wm:apropos-recipe ne2wm:c-magit+-recipe))
+        (e2wm:c-magit-winfo ne2wm:c-magit+-winfo))
+    (e2wm:dp-magit-init)))
 
 (defun ne2wm:dp-magit+-popup (buf)
   (let ((cb (current-buffer)))

@@ -23,7 +23,14 @@
 ;;; Code:
 
 (require 'e2wm)
+(require 'e2wm-vcs)
 (require 'ne2wm-popwin)
+(require 'ne2wm-core)
+(eval-when-compile (require 'monky nil t))
+
+
+(defvar ne2wm:c-monky+-recipe e2wm:c-monky-recipe)
+(defvar ne2wm:c-monky+-winfo e2wm:c-monky-winfo)
 
 
 (e2wm:pst-class-register
@@ -31,8 +38,13 @@
   :name   'monky+
   :extend 'monky
   :title  "Monky+"
+  :init   'ne2wm:dp-monky+-init
   :popup  'ne2wm:dp-monky+-popup))
 
+(defun ne2wm:dp-monky+-init ()
+  (let ((e2wm:c-monky-recipe (ne2wm:apropos-recipe ne2wm:c-monky+-recipe))
+        (e2wm:c-monky-winfo ne2wm:c-monky+-winfo))
+    (e2wm:dp-monky-init)))
 
 (defun ne2wm:dp-monky+-popup (buf)
   (let ((cb (current-buffer)))
