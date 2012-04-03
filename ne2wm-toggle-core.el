@@ -1,4 +1,4 @@
-;;; ne2wm-shell.el --- shell utilities for e2wm
+;;; ne2wm-toggle-core.el --- buffer-toggling utilities for e2wm
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -24,10 +24,6 @@
 
 (eval-when-compile (require 'cl))
 (require 'e2wm)
-(require 'term nil t)
-(require 'eshell nil t)
-(require 'em-prompt nil t) ; to suppress warning about `eshell-emit-prompt'
-
 (require 'ne2wm-utils)
 
 
@@ -68,58 +64,5 @@ which is buffer local in the *target* buffer."
         (when cb-at-target (funcall cb-at-target))))))
 
 
-(defun ne2wm:toggle-shell-ansi-term (&optional change-directory)
-  "Toggle ansi-term in the current window.
-
-When the prefix argument is given, current working directory in
-the shell will be changed to the directory of the buffer."
-  (interactive "P")
-  (let ((target-buffer
-         (when (and (boundp 'term-ansi-buffer-name)
-                    term-ansi-buffer-name)
-           ;; `term-ansi-buffer-name' is actually a buffer; strange!
-           (buffer-name term-ansi-buffer-name)))
-        (cd-cmd (format "cd %s\n" default-directory)))
-    (ne2wm:toggle-buffer-with-callbacks
-     target-buffer
-     (lambda () (ansi-term explicit-shell-file-name))
-     (when change-directory
-       (lambda () (term-send-raw-string cd-cmd))))))
-
-
-(defun ne2wm:toggle-shell-shell (&optional change-directory)
-  "Toggle *shell* buffer in the current window.
-
-When the prefix argument is given, current working directory in
-the shell will be changed to the directory of the buffer."
-  (interactive "P")
-  (let ((target-buffer "*shell*")
-        (cd-cmd (format "cd %s\n" default-directory)))
-    (ne2wm:toggle-buffer-with-callbacks
-     target-buffer
-     #'shell
-     (when change-directory
-       (lambda ()
-         (goto-char (point-max))
-         (insert cd-cmd))))))
-
-
-(defun ne2wm:toggle-shell-eshell (&optional change-directory)
-  "Toggle eshell in the current window.
-
-When the prefix argument is given, current working directory in
-the shell will be changed to the directory of the buffer."
-  (interactive "P")
-  (let ((target-buffer eshell-buffer-name)
-        (cd-cmd (format "cd %s\n" default-directory)))
-    (ne2wm:toggle-buffer-with-callbacks
-     target-buffer
-     #'eshell
-     (when change-directory
-       (lambda ()
-         (eshell-interactive-print cd-cmd)
-         (eshell-emit-prompt))))))
-
-
-(provide 'ne2wm-shell)
-;;; ne2wm-shell.el ends here
+(provide 'ne2wm-toggle-core)
+;;; ne2wm-toggle-core.el ends here
