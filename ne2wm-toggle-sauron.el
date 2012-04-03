@@ -1,4 +1,4 @@
-;;;; ne2wm-toggle.el --- buffer-toggling utilities for e2wm
+;;; ne2wm-toggle-sauron.el --- sauron utilities for e2wm
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -22,12 +22,22 @@
 
 ;;; Code:
 
-(autoload 'ne2wm:toggle-ansi-term "ne2wm-toggle-shell" nil t)
-(autoload 'ne2wm:toggle-shell "ne2wm-toggle-shell" nil t)
-(autoload 'ne2wm:toggle-eshell "ne2wm-toggle-eshell" nil t)
-(autoload 'ne2wm:toggle-sauron "ne2wm-toggle-sauron" nil t)
+(require 'ne2wm-toggle-core)
+(require 'sauron)
 
-(defalias 'ne2wm:toggle-shell-ansi-term 'ne2wm:toggle-ansi-term)
 
-(provide 'ne2wm-toggle)
-;;; ne2wm-toggle.el ends here
+;;;###autoload
+(defun ne2wm:toggle-sauron (&optional log-buffer)
+  "Toggle eshell in the current window.
+
+When the prefix argument is given, visit the *Sauron Log buffer*."
+  (interactive "P")
+  (let ((sauron-separate-frame nil)
+        (target-buffer (if log-buffer sr-log-buffer-name sr-buffer-name)))
+    (ne2wm:toggle-buffer-with-callbacks
+     target-buffer
+     #'sauron-start)))
+
+
+(provide 'ne2wm-toggle-sauron)
+;;; ne2wm-toggle-sauron.el ends here
