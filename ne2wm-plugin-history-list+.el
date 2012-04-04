@@ -25,6 +25,7 @@
 (eval-when-compile (require 'cl)
                    (require 'howm nil t))
 (require 'e2wm)
+(require 'ne2wm-utils)
 
 (defvar ne2wm:c-plugin-history-list+-mode-line-format
   '("-" mode-line-mule-info " " mode-line-position "-%-")
