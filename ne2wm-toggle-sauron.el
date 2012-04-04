@@ -33,7 +33,11 @@
 When the prefix argument is given, visit the *Sauron Log buffer*."
   (interactive "P")
   (let ((sauron-separate-frame nil)
-        (target-buffer (if log-buffer sr-log-buffer-name sr-buffer-name)))
+        (target-buffer
+         (let ((buffer-name (buffer-name)))
+           (if (member buffer-name (list sr-log-buffer-name sr-buffer-name))
+               buffer-name
+             (if log-buffer sr-log-buffer-name sr-buffer-name)))))
     (ne2wm:toggle-buffer-with-callbacks
      target-buffer
      #'sauron-start)))
