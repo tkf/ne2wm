@@ -24,6 +24,7 @@
 
 (require 'e2wm)
 (require 'ne2wm-popwin)
+(eval-when-compile (defvar prev-selected-buffer))
 
 
 (e2wm:pst-class-register

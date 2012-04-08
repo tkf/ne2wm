@@ -23,6 +23,7 @@
 ;;; Code:
 
 (require 'e2wm)
+(eval-when-compile (defvar prev-selected-buffer))
 
 
 (defvar ne2wm:c-vca-recipe

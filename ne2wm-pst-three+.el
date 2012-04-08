@@ -27,6 +27,7 @@
 (require 'ne2wm-buffer-p)
 (require 'ne2wm-plugin-history-list+)
 (require 'ne2wm-pst-two+)
+(eval-when-compile (defvar prev-selected-buffer))
 
 
 (defvar ne2wm:c-three+-recipe
