@@ -109,10 +109,10 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
 
 (defun ne2wm:win-ring-rotate ()
   (interactive)                         ; FIXME: use prefix arg
-  (let ((ring (ne2wm:win-ring-get)))
-    (mapcar* #'e2wm:pst-buffer-set
-             ring
-             (ne2wm:rorate-list (mapcar #'e2wm:pst-buffer-get ring))))
+  (loop with ring = (ne2wm:win-ring-get)
+        for wname in ring
+        for buf in (ne2wm:rorate-list (mapcar #'e2wm:pst-buffer-get ring))
+        do (e2wm:pst-buffer-set wname buf))
   (e2wm:pst-update-windows))
 
 
