@@ -120,20 +120,20 @@ Example: '(\"<--\" \"-->\")."
 
 (defun ne2wm:def-plugin-history-list+ (frame wm winfo)
   "History-list+ plugin definition."
-  (let ((wname (wlf:window-name winfo))
-        (win (wlf:window-live-window winfo))
-        (buf (get-buffer " *WM:History+*"))
-        (line-format
-         (format "%%%ds %%2s %%s %%s\n"
-                 (loop for s in
-                       (ne2wm:def-plugin-history-list+-pointer-list-get)
-                       sum (length s))))
-        (space-list
-         (loop for pointer in
-               (ne2wm:def-plugin-history-list+-pointer-list-get)
-               for len = (length pointer)
-               collect (apply #'concat (loop for -no-use- from 1 to len
-                                             collect " "))))
+  (let* ((wname (wlf:window-name winfo))
+         (win (wlf:window-live-window winfo))
+         (buf (get-buffer " *WM:History+*"))
+         (pointer-list (ne2wm:def-plugin-history-list+-pointer-list-get))
+         (wname-list (ne2wm:def-plugin-history-list+-wname-list-get))
+         (line-format
+          (format "%%%ds %%2s %%s %%s\n"
+                  (loop for s in pointer-list
+                        sum (length s))))
+         (space-list
+          (loop for pointer in pointer-list
+                for len = (length pointer)
+                collect (apply #'concat (loop for -no-use- from 1 to len
+                                              collect " "))))
         current-pos)
     (unless (and buf (buffer-live-p buf))
       (setq buf (get-buffer-create " *WM:History+*"))
@@ -155,7 +155,7 @@ Example: '(\"<--\" \"-->\")."
                    (history-backup (reverse (e2wm:history-get-backup)))
                    (buf-list (mapcar
                               (lambda (n) (wlf:get-buffer wm n))
-                              (ne2wm:def-plugin-history-list+-wname-list-get)))
+                              wname-list))
                    (main-buf   (nth 0 buf-list))
                    (second-buf (nth 1 buf-list))
                    (third-buf  (nth 2 buf-list))
@@ -171,8 +171,7 @@ Example: '(\"<--\" \"-->\")."
                            (apply
                             #'concat
                             (loop for buf in buf-list
-                                  for pointer in
-                                  (ne2wm:def-plugin-history-list+-pointer-list-get)
+                                  for pointer in pointer-list
                                   for space in space-list
                                   collect (if (eql h buf) pointer space)))
                            cnt name
