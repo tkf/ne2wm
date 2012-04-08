@@ -62,8 +62,9 @@
 
 
 (defun ne2wm:dp-two+-start (wm-unused)
-  (setq ne2wm:win-ring '(left right))
-  (ne2wm:def-plugin-history-list+-setup ne2wm:win-ring '("<<" ">>")))
+  (let ((wins '(left right)))
+    (ne2wm:win-ring-set wins)
+    (ne2wm:def-plugin-history-list+-setup wins '("<<" ">>"))))
 
 
 (defun ne2wm:dp-two+-popup (buf)

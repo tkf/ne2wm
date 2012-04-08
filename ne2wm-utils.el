@@ -83,8 +83,11 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
       (message "Not in VCS")))))
 
 
-(defvar ne2wm:win-ring nil)
-(make-variable-frame-local 'ne2wm:win-ring)
+(defun ne2wm:win-ring-get (&optional frame):
+  (e2wm:frame-param-get 'ne2wm:win-ring frame))
+
+(defun ne2wm:win-ring-set (val &optional frame):
+  (e2wm:frame-param-set 'ne2wm:win-ring val frame))
 
 (defun ne2wm:rorate-list-right (seq offset)
   (if (<= offset 0)
@@ -106,10 +109,10 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
 
 (defun ne2wm:win-ring-rotate ()
   (interactive)                         ; FIXME: use prefix arg
-  (mapcar* #'e2wm:pst-buffer-set
-           ne2wm:win-ring
-           (ne2wm:rorate-list (mapcar #'e2wm:pst-buffer-get
-                                      ne2wm:win-ring)))
+  (let ((ring (ne2wm:win-ring-get)))
+    (mapcar* #'e2wm:pst-buffer-set
+             ring
+             (ne2wm:rorate-list (mapcar #'e2wm:pst-buffer-get ring))))
   (e2wm:pst-update-windows))
 
 
@@ -133,12 +136,13 @@ Examples:
 
 (defun ne2wm:win-ring-push (arg)
   (interactive "p")
-  (let* ((cur-wname (ne2wm:current-wname-in-list ne2wm:win-ring))
+  (let* ((ring (ne2wm:win-ring-get))
+         (cur-wname (ne2wm:current-wname-in-list ring))
          (next-wname
           (when cur-wname
-            (ne2wm:find-next-in-seq ne2wm:win-ring cur-wname arg))))
+            (ne2wm:find-next-in-seq ring cur-wname arg))))
     (if (not next-wname)
-        (message "Not in win-ring windows %S." ne2wm:win-ring)
+        (message "Not in win-ring windows %S." ring)
       (let ((cur-buf  (e2wm:pst-buffer-get cur-wname))
             (next-buf (e2wm:pst-buffer-get next-wname)))
         (e2wm:pst-buffer-set cur-wname next-buf)

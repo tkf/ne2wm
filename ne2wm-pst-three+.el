@@ -89,8 +89,9 @@
 
 
 (defun ne2wm:dp-three+-start (wm-unused)
-  (setq ne2wm:win-ring '(left right third))
-  (ne2wm:def-plugin-history-list+-setup ne2wm:win-ring '("<" ">" "v")))
+  (let ((wins '(left right third)))
+    (ne2wm:win-ring-set wins)
+    (ne2wm:def-plugin-history-list+-setup wins '("<" ">" "v"))))
 
 
 (defun ne2wm:dp-three+-switch/popup (buf)
