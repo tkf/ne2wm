@@ -1,4 +1,4 @@
-;;; ne2wm-setup.el --- Load all plugin/perspectives in ne2wm
+;;;; ne2wm-toggle.el --- buffer-toggling utilities for e2wm
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -22,11 +22,12 @@
 
 ;;; Code:
 
-(require 'ne2wm-utils)
-(require 'ne2wm-toggle)
-(ne2wm:load-files "^ne2wm-plugin-.*\\.el$")
-(ne2wm:load-files "^ne2wm-pst-.*\\.el$")
+(autoload 'ne2wm:toggle-ansi-term "ne2wm-toggle-shell" nil t)
+(autoload 'ne2wm:toggle-shell "ne2wm-toggle-shell" nil t)
+(autoload 'ne2wm:toggle-eshell "ne2wm-toggle-eshell" nil t)
+(autoload 'ne2wm:toggle-sauron "ne2wm-toggle-sauron" nil t)
 
+(defalias 'ne2wm:toggle-shell-ansi-term 'ne2wm:toggle-ansi-term)
 
-(provide 'ne2wm-setup)
-;;; ne2wm-setup.el ends here
+(provide 'ne2wm-toggle)
+;;; ne2wm-toggle.el ends here

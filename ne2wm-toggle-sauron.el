@@ -1,4 +1,4 @@
-;;; ne2wm-setup.el --- Load all plugin/perspectives in ne2wm
+;;; ne2wm-toggle-sauron.el --- sauron utilities for e2wm
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -22,11 +22,26 @@
 
 ;;; Code:
 
-(require 'ne2wm-utils)
-(require 'ne2wm-toggle)
-(ne2wm:load-files "^ne2wm-plugin-.*\\.el$")
-(ne2wm:load-files "^ne2wm-pst-.*\\.el$")
+(require 'ne2wm-toggle-core)
+(require 'sauron)
 
 
-(provide 'ne2wm-setup)
-;;; ne2wm-setup.el ends here
+;;;###autoload
+(defun ne2wm:toggle-sauron (&optional log-buffer)
+  "Toggle eshell in the current window.
+
+When the prefix argument is given, visit the *Sauron Log buffer*."
+  (interactive "P")
+  (let ((sauron-separate-frame nil)
+        (target-buffer
+         (let ((buffer-name (buffer-name)))
+           (if (member buffer-name (list sr-log-buffer-name sr-buffer-name))
+               buffer-name
+             (if log-buffer sr-log-buffer-name sr-buffer-name)))))
+    (ne2wm:toggle-buffer-with-callbacks
+     target-buffer
+     #'sauron-start)))
+
+
+(provide 'ne2wm-toggle-sauron)
+;;; ne2wm-toggle-sauron.el ends here

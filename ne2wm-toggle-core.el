@@ -1,4 +1,4 @@
-;;; ne2wm-shell.el --- shell utilities for e2wm
+;;; ne2wm-toggle-core.el --- buffer-toggling utilities for e2wm
 
 ;; Copyright (C) 2012  Takafumi Arakaki
 
@@ -24,8 +24,6 @@
 
 (eval-when-compile (require 'cl))
 (require 'e2wm)
-(require 'term nil t)
-
 (require 'ne2wm-utils)
 
 
@@ -66,24 +64,5 @@ which is buffer local in the *target* buffer."
         (when cb-at-target (funcall cb-at-target))))))
 
 
-(defun ne2wm:toggle-shell-ansi-term (&optional change-directory)
-  "Toggle ansi-term in the current window.
-
-When the prefix argument is given, current working directory in
-the shell will be changed to the directory of the buffer."
-  (interactive "P")
-  (let ((target-buffer
-         (when (and (boundp 'term-ansi-buffer-name)
-                    term-ansi-buffer-name)
-           ;; `term-ansi-buffer-name' is actually a buffer; strange!
-           (buffer-name term-ansi-buffer-name)))
-        (cd-cmd (format "cd %s\n" default-directory)))
-    (ne2wm:toggle-buffer-with-callbacks
-     target-buffer
-     (lambda () (ansi-term explicit-shell-file-name))
-     (when change-directory
-       (lambda () (term-send-raw-string cd-cmd))))))
-
-
-(provide 'ne2wm-shell)
-;;; ne2wm-shell.el ends here
+(provide 'ne2wm-toggle-core)
+;;; ne2wm-toggle-core.el ends here

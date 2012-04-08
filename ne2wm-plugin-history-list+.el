@@ -25,10 +25,14 @@
 (eval-when-compile (require 'cl)
                    (require 'howm nil t))
 (require 'e2wm)
+(require 'ne2wm-utils)
 
 (defvar ne2wm:c-plugin-history-list+-mode-line-format
   '("-" mode-line-mule-info " " mode-line-position "-%-")
   "Mode line for history-list+.  See `mode-line-format'.")
+
+(defvar ne2wm:c-plugin-history-list+-hl-line-mode nil
+  "Use `hl-line-mode' in the plugin window if non-nil.")
 
 (defvar ne2wm:def-plugin-history-list+-wname-list nil
   "List of the window names to show in the history-list+ plugin.
@@ -128,7 +132,8 @@ Example: '(\"<--\" \"-->\")."
         (setq buffer-read-only t)
         (setq truncate-lines t)
         (buffer-disable-undo buf)
-        (hl-line-mode 1)))
+        (when ne2wm:c-plugin-history-list+-hl-line-mode
+          (hl-line-mode 1))))
     (with-current-buffer buf
       (unwind-protect
           (progn
