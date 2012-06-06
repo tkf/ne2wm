@@ -31,12 +31,12 @@
 
 
 (defvar ne2wm:c-three+-recipe
-  '(| (:left-size-ratio 0.22)
+  '(| (:right-size 246)
       (- (:upper-size 7)
          org-clock
          (- (- imenu history ) sub))
-      (| (:left-size-ratio 0.666)
-         (| (:left-size-ratio 0.5) left right) third)))
+      (| (:left-size 163)
+         (| left right) third)))
 
 
 (defvar ne2wm:c-three+-winfo
