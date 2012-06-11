@@ -95,9 +95,24 @@
     (ne2wm:def-plugin-history-list+-setup wins '("<" ">" "v"))))
 
 
-(defun ne2wm:dp-three+-switch/popup (buf)
-  "Common part used in switch and popup"
+(defun ne2wm:dp-three+-switch (buf)
+  (e2wm:message "#DP THREE+ switch : %s" buf)
   (let ((wm (e2wm:pst-get-wm))
+        (curwin (selected-window)))
+    (cond
+     ((ne2wm:dp-two+-switch buf)        ; `left' or `right' window
+      t)
+     ((eql curwin (wlf:get-window wm 'third)) ; `third' window
+      (e2wm:pst-buffer-set 'third buf)
+      (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
+      t)
+     (t nil))))
+
+
+(defun ne2wm:dp-three+-popup (buf)
+  (e2wm:message "#DP THREE+ popup : %s" buf)
+  (let ((buf-name (buffer-name buf))
+        (wm (e2wm:pst-get-wm))
         (curwin (selected-window)))
     (cond
      ((ne2wm:vcs-status-buffer-p buf)
@@ -115,37 +130,6 @@
      ((ne2wm:vcs-commit-buffer-p buf)
       (e2wm:pst-buffer-set 'right buf t)
       (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
-      t)
-     (t nil))))
-
-
-(defun ne2wm:dp-three+-switch (buf)
-  (e2wm:message "#DP THREE+ switch : %s" buf)
-  (cond
-   ((ne2wm:dp-three+-switch/popup buf)
-    t)
-   (t
-    (unless (ne2wm:dp-two+-switch buf)
-      (let ((wm (e2wm:pst-get-wm))
-            (curwin (selected-window)))
-        (cond
-         ;; in the `third' window
-         ((eql curwin (wlf:get-window wm 'third))
-          (e2wm:pst-buffer-set 'third buf)
-          (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
-          t)
-         ;; otherwise
-         (t nil)))))))
-
-
-(defun ne2wm:dp-three+-popup (buf)
-  (e2wm:message "#DP THREE+ popup : %s" buf)
-  (let ((buf-name (buffer-name buf))
-        (wm (e2wm:pst-get-wm))
-        (curwin (selected-window)))
-    (cond
-     ;; Buffer specific configurations:
-     ((ne2wm:dp-three+-switch/popup buf)
       t)
      ((equal "*info*" buf-name)
       (e2wm:message ">>> (equal \"*info*\" buf-name='%S')" buf-name)
