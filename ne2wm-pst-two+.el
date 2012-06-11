@@ -70,7 +70,9 @@
 (defun ne2wm:dp-two+-popup (buf)
   "Extended version of `e2wm:dp-two-popup'."
   (e2wm:message "#DP TWO+ popup : %s" buf)
-  (let ((buf-name (buffer-name buf)))
+  (let ((wm (e2wm:pst-get-wm))
+        (curwin (selected-window))
+        (buf-name (buffer-name buf)))
     (cond
      ;; Buffer specific configurations:
      ((equal "*info*" buf-name)
@@ -102,8 +104,10 @@
       t)
      ((e2wm:history-recordable-p buf)
       (e2wm:message ">>> (e2wm:history-recordable-p buf='%S')" buf)
-      (e2wm:pst-show-history-main)
-      (e2wm:pst-window-select-main)
+      (if (eql curwin (wlf:get-window wm 'left))
+          (e2wm:pst-buffer-set 'right buf t t)
+        (e2wm:pst-buffer-set 'left buf t t))
+      (e2wm:pst-update-windows)
       t)
      (t
       (e2wm:message ">>> t")
