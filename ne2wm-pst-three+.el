@@ -61,16 +61,20 @@
 
 
 (e2wm:pst-class-register
- (make-e2wm:$pst-class
-  :name   'three+
-  :extend 'two+
-  :title  "Three"
-  :init   'ne2wm:dp-three+-init
-  :start  'ne2wm:dp-three+-start
-  :main   'left
-  :switch 'ne2wm:dp-three+-switch
-  :popup  'ne2wm:dp-three+-popup
-  :keymap 'ne2wm:dp-three+-minor-mode-map))
+ (let ((class (make-e2wm:$pst-class
+               :name   'three+
+               :extend 'base
+               :title  "Three"
+               :init   'ne2wm:dp-three+-init
+               :start  'ne2wm:dp-three+-start
+               :main   'left
+               :switch 'ne2wm:dp-three+-switch
+               :popup  'ne2wm:dp-three+-popup
+               :keymap 'ne2wm:dp-three+-minor-mode-map)))
+   ;; Check if installed e2wm.el supports display method
+   (when (fboundp 'e2wm:$pst-class-display)
+     (setf (e2wm:$pst-class-display class) 'ne2wm:dp-three+-display))
+   class))
 
 
 (defun ne2wm:dp-three+-init ()
@@ -156,6 +160,25 @@
       (e2wm:message ">>> t")
       (ne2wm:popup-sub-appropriate-select buf)
       t))))
+
+(defun ne2wm:dp-three+-display (buf)
+  (e2wm:message "#DP THREE+ display : %s" buf)
+  (cond
+   ((e2wm:document-buffer-p buf)
+    (e2wm:pst-buffer-set 'third buf)
+    t)
+   ((e2wm:history-recordable-p buf)
+    (let ((wm (e2wm:pst-get-wm))
+          (curwin (selected-window)))
+      ;; show in the other window, but don't select.
+      (if (or (eql curwin (wlf:get-window wm 'left))
+              (eql curwin (wlf:get-window wm 'third)))
+          (e2wm:pst-buffer-set 'right buf)
+        (e2wm:pst-buffer-set 'left buf)))
+    t)
+   (t
+    (e2wm:pst-buffer-set 'sub buf t)
+    t)))
 
 
 (defun ne2wm:dp-three+ ()
