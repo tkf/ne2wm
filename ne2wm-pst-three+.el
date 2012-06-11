@@ -63,7 +63,7 @@
 (e2wm:pst-class-register
  (make-e2wm:$pst-class
   :name   'three+
-  :extend 'base
+  :extend 'two+
   :title  "Three"
   :init   'ne2wm:dp-three+-init
   :start  'ne2wm:dp-three+-start
