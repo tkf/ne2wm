@@ -63,7 +63,7 @@
 (e2wm:pst-class-register
  (let ((class (make-e2wm:$pst-class
                :name   'three+
-               :extend 'two+
+               :extend 'two           ; two+ does not work here. why??
                :title  "Three"
                :init   'ne2wm:dp-three+-init
                :start  'ne2wm:dp-three+-start
