@@ -37,9 +37,12 @@
 If the universal prefix argument is given, the current buffer
 will be shown in the next window."
   (interactive "P")
-  (let ((prev-buf (current-buffer)))
-    (e2wm:aif (e2wm:pst-window-toggle
-               'sub t (e2wm:$pst-main (e2wm:pst-get-instance)))
+  (let* ((prev-buf (current-buffer))
+         (wm (e2wm:pst-get-wm))
+         (next-window
+          (when (eq (wlf:get-window-name wm (selected-window)) 'sub)
+            (e2wm:$pst-main (e2wm:pst-get-instance)))))
+    (e2wm:aif (e2wm:pst-window-toggle 'sub t next-window)
         (when move-buffer
           (wlf:set-buffer (e2wm:pst-get-wm) it prev-buf)))))
 
