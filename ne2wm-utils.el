@@ -39,6 +39,9 @@ will be shown in the next window."
   (interactive "P")
   (let* ((prev-buf (current-buffer))
          (wm (e2wm:pst-get-wm))
+         ;; When *not* in sub, do not specify NEXT-WINDOW so that
+         ;; `e2wm:pst-window-toggle' let me stay in the current
+         ;; window.
          (next-window
           (when (eq (wlf:get-window-name wm (selected-window)) 'sub)
             (e2wm:$pst-main (e2wm:pst-get-instance)))))
