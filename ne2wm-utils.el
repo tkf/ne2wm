@@ -44,7 +44,7 @@ will be shown in the next window."
             (e2wm:$pst-main (e2wm:pst-get-instance)))))
     (e2wm:aif (e2wm:pst-window-toggle 'sub t next-window)
         (when move-buffer
-          (wlf:set-buffer (e2wm:pst-get-wm) it prev-buf)))))
+          (wlf:set-buffer wm it prev-buf)))))
 
 (defun ne2wm:hide-sub ()
   "Hide e2wm sub window."
