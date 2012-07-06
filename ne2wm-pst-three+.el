@@ -115,9 +115,10 @@
 
 (defun ne2wm:dp-three+-popup (buf)
   (e2wm:message "#DP THREE+ popup : %s" buf)
-  (let ((buf-name (buffer-name buf))
-        (wm (e2wm:pst-get-wm))
-        (curwin (selected-window)))
+  (let* ((buf-name (buffer-name buf))
+         (wm (e2wm:pst-get-wm))
+         (curwin (selected-window))
+         (wname (and wm curwin (wlf:get-window-name wm curwin))))
     (cond
      ((ne2wm:vcs-status-buffer-p buf)
       (e2wm:pst-buffer-set 'left buf t t)
@@ -147,7 +148,7 @@
      ((e2wm:history-recordable-p buf)
       (e2wm:message ">>> (e2wm:history-recordable-p buf='%S')" buf)
       (cond
-       ((eql curwin (wlf:get-window wm 'right))
+       ((memq wname '(right sub))
         (e2wm:pst-show-history-main)
         (e2wm:pst-window-select-main)
         t)
