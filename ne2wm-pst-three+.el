@@ -147,15 +147,13 @@
       t)
      ((e2wm:history-recordable-p buf)
       (e2wm:message ">>> (e2wm:history-recordable-p buf='%S')" buf)
-      (cond
-       ((memq wname '(right sub))
-        (e2wm:pst-show-history-main)
-        (e2wm:pst-window-select-main)
-        t)
-       (t
-        (e2wm:pst-update-windows)
-        (e2wm:pst-buffer-set 'right buf t t)
-        t))
+      (e2wm:pst-update-windows)
+      (e2wm:pst-buffer-set (case wname
+                             (sub   'left)
+                             (left  'right)
+                             (right 'third)
+                             (third 'right))
+                           buf t t)
       t)
      (t
       (e2wm:message ">>> t")
