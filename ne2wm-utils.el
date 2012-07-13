@@ -57,6 +57,12 @@ will be shown in the next window."
       (wlf:select wm (e2wm:$pst-main (e2wm:pst-get-instance))))
     (wlf:hide wm 'sub)))
 
+(defun ne2wm:select-sub ()
+  "Focus e2wm sub window."
+  (interactive)
+  (let ((wm (e2wm:pst-get-wm)))
+    (wlf:select wm 'sub)))
+
 (defun ne2wm:pst-update-windows-command ()
   "Reset window configurations.
 
