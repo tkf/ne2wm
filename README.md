@@ -2,8 +2,16 @@
 
 *-- until it reaches to the equilibrium state --*
 
-NE2WM is a set of perspectives, plugins, utility functions and commands for [Equilibrium Emacs Window Manager](https://github.com/kiwanami/emacs-window-manager) (E2WM).
+NE2WM is a set of perspectives, plugins, utility functions and
+commands for [Equilibrium Emacs Window Manager][e2wm] (E2WM).
 
+You need to install [e2wm.el][e2wm] (and its dependency
+[window-layout.el][wlf]) to try NE2WM.
+<!-- If you use el-get, you can install NE2WM as a package `ne2wm` and
+let el-get handle the dependencies. -->
+
+[e2wm]: https://github.com/kiwanami/emacs-window-manager
+[wlf]: https://github.com/kiwanami/emacs-window-layout
 
 To load all NE2WM functionality, add the following line in your Emacs setting.
 
@@ -21,7 +29,7 @@ import cog
 from glob import glob
 files = (sorted(glob('ne2wm-pst-*.el')) +
          sorted(glob('ne2wm-plugin-*.el')) +
-         ['ne2wm-utils.el', 'ne2wm-shell.el'])
+         ['ne2wm-utils.el', 'ne2wm-toggle.el'])
 line0 = (file(f).readline().strip(';;;').strip() for f in files)
 
 cog.outl('')
@@ -39,7 +47,7 @@ cog.outl('')
 + ne2wm-plugin-history-list+.el --- history-list plugin for many windows
 + ne2wm-plugin-org-clock.el --- org-clock plugin
 + ne2wm-utils.el --- utility functions
-+ ne2wm-shell.el --- shell utilities for e2wm
++ ne2wm-toggle.el --- buffer-toggling utilities for e2wm
 
 <!--[[[end]]]-->
 
