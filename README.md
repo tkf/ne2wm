@@ -7,8 +7,8 @@ commands for [Equilibrium Emacs Window Manager][e2wm] (E2WM).
 
 You need to install [e2wm.el][e2wm] (and its dependency
 [window-layout.el][wlf]) to try NE2WM.
-<!-- If you use el-get, you can install NE2WM as a package `ne2wm` and
-let el-get handle the dependencies. -->
+If you use el-get, you can install NE2WM as a package `ne2wm` and
+let el-get handle the dependencies.
 
 [e2wm]: https://github.com/kiwanami/emacs-window-manager
 [wlf]: https://github.com/kiwanami/emacs-window-layout
