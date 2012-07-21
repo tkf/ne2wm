@@ -69,14 +69,12 @@ will be shown in the next window."
 This is an extend version of `e2wm:pst-update-windows-command'.
 
 Additional feature:
-* Move buffer shown in the main window to the top of the history list.
+* Move buffer shown in the current window to the top of the history list.
 "
   (interactive)
   (let* ((wm (e2wm:pst-get-wm))
-         (wname (e2wm:$pst-main (e2wm:pst-get-instance)))
-         (buf (wlf:get-buffer wm wname))
          (curwname (wlf:get-window-name wm (selected-window))))
-    (e2wm:history-add buf)
+    (e2wm:history-add (current-buffer))
     (e2wm:pst-update-windows-command)
     (e2wm:pst-window-select curwname))) ; avoid changing window focus
 
