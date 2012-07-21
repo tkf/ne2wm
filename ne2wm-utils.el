@@ -75,6 +75,7 @@ Additional feature:
   (let* ((wm (e2wm:pst-get-wm))
          (curwname (wlf:get-window-name wm (selected-window))))
     (e2wm:history-add (current-buffer))
+    (e2wm:pst-buffer-set curwname (current-buffer)) ; forcefully track buffer
     (e2wm:pst-update-windows-command)
     (e2wm:pst-window-select curwname))) ; avoid changing window focus
 
