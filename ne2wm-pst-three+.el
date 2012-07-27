@@ -148,12 +148,12 @@
      ((e2wm:history-recordable-p buf)
       (e2wm:message ">>> (e2wm:history-recordable-p buf='%S')" buf)
       (e2wm:pst-update-windows)
-      (e2wm:pst-buffer-set (case wname
-                             (left  'right)
-                             (right 'third)
-                             (third 'right)
-                             (t     'left))
-                           buf t t)
+      (let ((wname-other (case wname
+                           (left  'right)
+                           (right 'third)
+                           (third 'right)
+                           (t     'left))))
+        (e2wm:pst-buffer-set wname-other buf t t))
       t)
      (t
       (e2wm:message ">>> t")
