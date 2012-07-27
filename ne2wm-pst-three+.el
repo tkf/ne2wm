@@ -149,10 +149,10 @@
       (e2wm:message ">>> (e2wm:history-recordable-p buf='%S')" buf)
       (e2wm:pst-update-windows)
       (e2wm:pst-buffer-set (case wname
-                             (sub   'left)
                              (left  'right)
                              (right 'third)
-                             (third 'right))
+                             (third 'right)
+                             (t     'left))
                            buf t t)
       t)
      (t
