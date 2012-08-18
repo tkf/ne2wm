@@ -63,6 +63,17 @@ will be shown in the next window."
   (let ((wm (e2wm:pst-get-wm)))
     (wlf:select wm 'sub)))
 
+(defun ne2wm:popup-sub-tail (buffer)
+  "Popup BUFFER in sub window and `recenter' at the bottom of the window."
+  (e2wm:pst-buffer-set 'sub buffer t t)
+  (set-window-point (selected-window) (point-max))
+  (recenter -2))
+
+(defun ne2wm:popup-messages ()
+  "Display *Messages* buffer in sub window."
+  (interactive)
+  (ne2wm:popup-sub-tail (get-buffer "*Messages*")))
+
 (defun ne2wm:pst-update-windows-command ()
   "Reset window configurations.
 
