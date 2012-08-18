@@ -62,6 +62,27 @@ See `popwin:special-display-config'."
     (e2wm:with-advice
      (e2wm:pst-buffer-set 'sub buffer t selectp))))
 
+
+;;; popwin compatible commands
+
+(declare-function ne2wm:popup-messages "ne2wm-utils")  ; FIXME
+
+;; Command named `ne2wm:popwin-*' does thing similar to what
+;; `popwin:*' does.  When e2wm is not enabled, it just calls
+;; `popwin:*'.
+
+(defun ne2wm:popwin-messages ()
+  (interactive)
+  (if (e2wm:managed-p)
+      (ne2wm:popup-messages)
+    (popwin:messages)))
+
+(defun ne2wm:popwin-display-last-buffer ()
+  (interactive)
+  (if (e2wm:managed-p)
+      (wlf:show (e2wm:pst-get-wm) 'sub)
+    (popwin:display-last-buffer)))
+
 
 (provide 'ne2wm-popwin)
 ;;; ne2wm-popwin.el ends here
