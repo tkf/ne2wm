@@ -33,7 +33,11 @@
   (should (eql (ne2wm:find-next-in-seq '(a b c d) 'b) 'c))
   (should (eql (ne2wm:find-next-in-seq '(a b c d) 'd) 'a))
   (should (eql (ne2wm:find-next-in-seq '(a b c d) 'b 2) 'd))
-  (should (eql (ne2wm:find-next-in-seq '(a b c d) 'b -1) 'a)))
+  (should (eql (ne2wm:find-next-in-seq '(a b c d) 'b -1) 'a))
+  (should (eql (ne2wm:find-next-in-seq '(a b c d) 'c nil t) 'b))
+  (should (eql (ne2wm:find-next-in-seq '(a b c d) 'a nil t) 'd))
+  (should (eql (ne2wm:find-next-in-seq '(a b c d) 'd 2 t) 'b))
+  (should (eql (ne2wm:find-next-in-seq '(a b c d) 'a -1 t) 'b)))
 
 (provide 'test-ne2wm-utils)
 

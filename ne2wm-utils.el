@@ -145,10 +145,11 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
   (e2wm:pst-update-windows))
 
 
-(defun ne2wm:find-next-in-seq (seq item &optional offset)
+(defun ne2wm:find-next-in-seq (seq item &optional offset reverse)
   "[internal]  Return OFFSET-next position from ITEM in SEQ.
 
 If OFFSET is omitted or nil, it is assumed to be 1.
+If REVERSE is non-nil, find OFFSET-previous position instead.
 
 Examples:
   (ne2wm:find-next-in-seq '(a b c d) 'b)     ; => c
@@ -159,7 +160,8 @@ Examples:
   (nth (loop for current in seq
              for i from 0
              when (eql current item)
-             return (mod (+ i (or offset 1)) (length seq)))
+             return (mod (funcall (if reverse #'- #'+) i (or offset 1))
+                         (length seq)))
        seq))
 
 
