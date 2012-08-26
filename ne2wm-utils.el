@@ -166,12 +166,18 @@ Examples:
 
 
 (defun ne2wm:win-ring-push (arg)
-  (interactive "p")
+  "Switch the current window with the next window.
+If universal prefix argument (C-u) is given, switch with the
+previous window instead.  If numerical prefix argument (e.g.,
+M-2) is given, switch with the ARG-th next window."
+  (interactive "P")
   (let* ((ring (ne2wm:win-ring-get))
          (cur-wname (ne2wm:current-wname-in-list ring))
          (next-wname
           (when cur-wname
-            (ne2wm:find-next-in-seq ring cur-wname arg))))
+            (ne2wm:find-next-in-seq ring cur-wname
+                                    (when (numberp arg) arg)
+                                    (and arg (listp arg))))))
     (if (not next-wname)
         (message "Not in win-ring windows %S." ring)
       (let ((cur-buf  (e2wm:pst-buffer-get cur-wname))
