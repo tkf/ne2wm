@@ -151,10 +151,10 @@ Currently, only Magit (Git) and Monky (Mercurial) are supported."
 If OFFSET is omitted or nil, it is assumed to be 1.
 
 Examples:
-  (ne2wm:find-next-in-seq '(0 1 2 3) 1)     ; => 2
-  (ne2wm:find-next-in-seq '(0 1 2 3) 3)     ; => 0
-  (ne2wm:find-next-in-seq '(0 1 2 3) 1 2)   ; => 3
-  (ne2wm:find-next-in-seq '(0 1 2 3) 1 -1)  ; => 0
+  (ne2wm:find-next-in-seq '(a b c d) 'b)     ; => c
+  (ne2wm:find-next-in-seq '(a b c d) 'd)     ; => a
+  (ne2wm:find-next-in-seq '(a b c d) 'b 2)   ; => d
+  (ne2wm:find-next-in-seq '(a b c d) 'b -1)  ; => a
 "
   (nth (loop for current in seq
              for i from 0
