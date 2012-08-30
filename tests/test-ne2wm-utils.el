@@ -39,6 +39,18 @@
   (should (eql (ne2wm:find-next-in-seq '(a b c d) 'd 2 t) 'b))
   (should (eql (ne2wm:find-next-in-seq '(a b c d) 'a -1 t) 'b)))
 
+(ert-deftest ne2wm:find-neighbor ()
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'a) 'b))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'b) 'c))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'c) 'd))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'd) 'c))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'x) 'c))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'a t) 'b))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'b t) 'a))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'c t) 'b))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'd t) 'c))
+  (should (eq (ne2wm:find-neighbor '(a b c d) 'x t) 'b)))
+
 (provide 'test-ne2wm-utils)
 
 ;;; test-ne2wm-utils.el ends here

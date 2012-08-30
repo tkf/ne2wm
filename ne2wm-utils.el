@@ -187,6 +187,29 @@ M-2) is given, switch with the ARG-th next window."
       (e2wm:pst-update-windows))))
 
 
+(defun ne2wm:find-neighbor (seq item &optional reverse)
+  "[internal] Find neighbor of ITEM in SEQ."
+  (when reverse
+    (setq seq (reverse seq)))
+  (loop for previous = current
+        for current in seq
+        for next in (cdr seq)
+        if (eq current item)
+        return next
+        finally return previous))
+
+
+(defun ne2wm:same-buffer-in-next-window (reverse)
+  "Show the current buffer in the next window.
+When the prefix argument is given, show in the previous window."
+  (interactive "P")
+  (let ((ring (ne2wm:win-ring-get))
+        (wname (e2wm:aand (e2wm:pst-get-wm)
+                          (wlf:get-window-name it (selected-window)))))
+    (e2wm:pst-buffer-set (ne2wm:find-neighbor ring wname reverse)
+                         (current-buffer) nil t)))
+
+
 
 ;;; Utility functions for e2wm
 

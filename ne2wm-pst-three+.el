@@ -56,7 +56,8 @@
      ("C->" . ne2wm:def-plugin-history-list+-forward-other-command)
      ("C-<" . ne2wm:def-plugin-history-list+-back-other-command)
      ("M-\\" . ne2wm:win-ring-push)
-     ("M-~"  . ne2wm:win-ring-rotate))
+     ("M-~"  . ne2wm:win-ring-rotate)
+     ("M-_"  . ne2wm:same-buffer-in-next-window))
      e2wm:prefix-key))
 
 
