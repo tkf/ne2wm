@@ -145,7 +145,7 @@ window, see `riffle-setup-window-configuration'."
      ((eql curwin (wlf:get-window wm 'right))
       (e2wm:pst-buffer-set 'right buf)
       (e2wm:plugin-exec-update-by-plugin-name curwin wm 'history-list+)
-      nil)
+      t)
      ;; do the default otherwise
      (t nil))))
 
