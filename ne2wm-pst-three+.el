@@ -34,9 +34,9 @@
   '(| (:right-size 246)
       (- (:upper-size 7)
          org-clock
-         (- (- imenu history ) sub))
+         (- imenu history ))
       (| (:left-size 163)
-         (| left right) third)))
+         (- (:lower-size 20) (| left right) sub) third)))
 
 
 (defvar ne2wm:c-three+-winfo
