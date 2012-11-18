@@ -32,9 +32,11 @@
 
 (defvar ne2wm:c-three+-recipe
   '(| (:right-size 246)
-      (- (:upper-size 7)
-         org-clock
-         (- imenu history ))
+      (| (:left-size 20)
+         codethumb
+         (- (:upper-size 7)
+            org-clock
+            (- imenu history )))
       (| (:left-size 163)
          (- (:lower-size 20) (| left right) sub) third)))
 
@@ -46,6 +48,7 @@
     (:name imenu :plugin imenu)
     (:name history :plugin history-list+)
     (:name org-clock :plugin org-clock)
+    (:name codethumb :plugin codethumb :default-hide t)
     (:name sub :default-hide t)))
 
 
@@ -184,6 +187,13 @@
 (defun ne2wm:dp-three+ ()
   (interactive)
   (e2wm:pst-change 'three+))
+
+
+(defun ne2wm:dp-three+-toggle-codethumb ()
+  (interactive)
+  (e2wm:plugin-exec-update-by-plugin-name
+   (selected-frame) (e2wm:pst-get-wm) 'codethumb)
+  (wlf:toggle (e2wm:pst-get-wm) 'codethumb))
 
 
 (defun ne2wm:dp-three+-setup-two-columns ()
