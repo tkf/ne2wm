@@ -28,11 +28,11 @@
 
 (require 'e2wm)
 (eval-when-compile (require 'codethumb nil t))
-(declare-function codethumb:show "codethumb")
+(declare-function codethumb:start-timer "codethumb")
 
 (defun ne2wm:def-plugin-codethumb (_ wm winfo)
   (with-current-buffer (e2wm:history-get-main-buffer)
-    (codethumb:show))
+    (codethumb:start-timer))
   (wlf:set-buffer wm (wlf:window-name winfo) codethumb:buffer))
 
 (e2wm:plugin-register 'codethumb
