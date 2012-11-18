@@ -191,9 +191,9 @@
 
 (defun ne2wm:dp-three+-toggle-codethumb ()
   (interactive)
+  (wlf:toggle (e2wm:pst-get-wm) 'codethumb)
   (e2wm:plugin-exec-update-by-plugin-name
-   (selected-frame) (e2wm:pst-get-wm) 'codethumb)
-  (wlf:toggle (e2wm:pst-get-wm) 'codethumb))
+   (selected-frame) (e2wm:pst-get-wm) 'codethumb))
 
 
 (defun ne2wm:dp-three+-setup-two-columns ()
