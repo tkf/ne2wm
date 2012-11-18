@@ -32,7 +32,8 @@
 
 (defvar ne2wm:c-three+-recipe
   '(| (:right-size 246)
-      (| codethumb
+      (| (:left-size 20)
+         codethumb
          (- (:upper-size 7)
             org-clock
             (- imenu history )))
