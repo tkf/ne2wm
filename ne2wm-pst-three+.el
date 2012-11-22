@@ -180,7 +180,10 @@
           (e2wm:pst-buffer-set 'right buf)
         (e2wm:pst-buffer-set 'left buf)))
     t)
-   ((eq (wlf:get-window (e2wm:pst-get-wm) 'sub) (selected-window))
+   ((let* ((wm (e2wm:pst-get-wm))
+           (subwin (wlf:get-window wm 'sub)))
+      (or (eq subwin (selected-window))
+          (eq subwin (minibuffer-selected-window))))
     (e2wm:pst-buffer-set 'left buf)
     t)
    (t
