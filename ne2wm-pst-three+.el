@@ -182,13 +182,18 @@
     t)
    ((let* ((wm (e2wm:pst-get-wm))
            (subwin (wlf:get-window wm 'sub)))
-      (or (eq subwin (selected-window))
-          (eq subwin (minibuffer-selected-window))))
+      (and subwin                       ; sub-window is open [#]_
+           (or (eq subwin (selected-window))
+               (eq subwin (minibuffer-selected-window)))))
     (e2wm:pst-buffer-set 'left buf)
     t)
    (t
     (e2wm:pst-buffer-set 'sub buf t)
     t)))
+;; .. [#] when sub window is closed `subwin' is nil.
+;;    `minibuffer-selected-window' returns nil when minibuffer is not
+;;    used.  Comparing both yields t but this is not what I want.
+
 
 
 (defun ne2wm:dp-three+ ()
