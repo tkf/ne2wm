@@ -26,7 +26,7 @@
 (require 'e2wm-vcs)
 (require 'ne2wm-popwin)
 (require 'ne2wm-core)
-(eval-when-compile (require 'magit))
+(eval-when-compile (require 'magit nil t))
 
 
 (defvar ne2wm:c-magit+-recipe-wide
