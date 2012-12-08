@@ -23,7 +23,10 @@
 ;;; Code:
 
 (require 'e2wm)
-(require 'org nil t)
+
+(eval-when-compile (require 'org nil t))
+(declare-function org-get-heading "org")
+(declare-function org-up-heading-safe "org")
 
 
 (defvar ne2wm:c-plugin-org-clock-enable t
