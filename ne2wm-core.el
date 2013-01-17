@@ -22,7 +22,27 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile
+  (require 'cl)
+  (defvar mag-menu-use-splitter-shrink))
+
+
+;;; Typical setup
+
+(defvar ne2wm:typical-setup-p t
+  "Do a typical setup when non-nil.
+You must set this variable before loading ne2wm.
+
+Supported libraries:
+
+- `mag-menu'
+")
+
+(when ne2wm:typical-setup-p
+  (setq mag-menu-use-splitter-shrink nil))
+
+
+;;;
 
 (defun ne2wm:apropos-recipe (recipe)
   "Convert RECIPE appropriately.
