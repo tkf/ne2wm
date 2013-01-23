@@ -207,7 +207,8 @@ When the prefix argument is given, show in the previous window."
         (wname (e2wm:aand (e2wm:pst-get-wm)
                           (wlf:get-window-name it (selected-window)))))
     (e2wm:pst-buffer-set (ne2wm:find-neighbor ring wname reverse)
-                         (current-buffer) nil t)))
+                         (current-buffer) nil t)
+    (e2wm:pst-update-windows)))
 
 
 
