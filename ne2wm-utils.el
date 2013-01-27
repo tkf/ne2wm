@@ -31,6 +31,25 @@
 
 ;;; Commands
 
+(defvar ne2wm:last-main-window-name nil)
+
+(defun ne2wm:record-main-window ()
+  "Call this function before switching to \"sub\" window.
+See `ne2wm:toggle-sub' and `ne2wm:unfocus-sub' for how it is
+used."
+  (setq ne2wm:last-main-window-name
+        (wlf:get-window-name (e2wm:pst-get-wm) (selected-window))))
+
+(defun ne2wm:next-non-sub-window-name ()
+  (or ne2wm:last-main-window-name
+      (e2wm:$pst-main (e2wm:pst-get-instance))))
+
+(defun ne2wm:unfocus-sub ()
+  "Select the window where the cursor was just before switching
+to sub window."
+  (interactive)
+  (e2wm:pst-window-select (ne2wm:next-non-sub-window-name)))
+
 (defun ne2wm:toggle-sub (&optional move-buffer)
   "Toggle on/off of e2wm sub window.
 
@@ -39,12 +58,14 @@ will be shown in the next window."
   (interactive "P")
   (let* ((prev-buf (current-buffer))
          (wm (e2wm:pst-get-wm))
+         (in-sub-p (eq (wlf:get-window-name wm (selected-window)) 'sub))
          ;; When *not* in sub, do not specify NEXT-WINDOW so that
          ;; `e2wm:pst-window-toggle' let me stay in the current
          ;; window.
-         (next-window
-          (when (eq (wlf:get-window-name wm (selected-window)) 'sub)
-            (e2wm:$pst-main (e2wm:pst-get-instance)))))
+         (next-window (when in-sub-p
+                        (ne2wm:next-non-sub-window-name))))
+    (unless in-sub-p
+      (ne2wm:record-main-window))
     (e2wm:aif (e2wm:pst-window-toggle 'sub t next-window)
         (when move-buffer
           (wlf:set-buffer wm it prev-buf)))))
@@ -54,7 +75,7 @@ will be shown in the next window."
   (interactive)
   (let ((wm (e2wm:pst-get-wm)))
     (when (eq (wlf:get-window-name wm (selected-window)) 'sub)
-      (wlf:select wm (e2wm:$pst-main (e2wm:pst-get-instance))))
+      (ne2wm:unfocus-sub))
     (wlf:hide wm 'sub)))
 
 (defun ne2wm:select-sub ()
