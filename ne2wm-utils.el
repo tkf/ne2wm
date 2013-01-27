@@ -81,11 +81,13 @@ will be shown in the next window."
 (defun ne2wm:select-sub ()
   "Focus e2wm sub window."
   (interactive)
+  (ne2wm:record-main-window)
   (let ((wm (e2wm:pst-get-wm)))
     (wlf:select wm 'sub)))
 
 (defun ne2wm:popup-sub-tail (buffer)
   "Popup BUFFER in sub window and `recenter' at the bottom of the window."
+  (ne2wm:record-main-window)
   (e2wm:pst-buffer-set 'sub buffer t t)
   (set-window-point (selected-window) (point-max))
   (recenter -2))
