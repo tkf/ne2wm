@@ -76,9 +76,11 @@
                :switch 'ne2wm:dp-three+-switch
                :popup  'ne2wm:dp-three+-popup
                :keymap 'ne2wm:dp-three+-minor-mode-map)))
-   ;; Check if installed e2wm.el supports display method
+   ;; Check if installed e2wm.el supports display/after-bury method
    (when (fboundp 'e2wm:$pst-class-display)
      (setf (e2wm:$pst-class-display class) 'ne2wm:dp-three+-display))
+   (when (fboundp 'e2wm:$pst-class-after-bury)
+     (setf (e2wm:$pst-class-after-bury class) 'ne2wm:dp-three+-after-bury))
    class))
 
 
@@ -194,6 +196,20 @@
 ;;    `minibuffer-selected-window' returns nil when minibuffer is not
 ;;    used.  Comparing both yields t but this is not what I want.
 
+
+(defun ne2wm:dp-three+-after-bury (buried-buffer window)
+  "Close sub window if it is the current window."
+
+  ;; Directly call `e2wm:dp-base-after-bury' because I want
+  ;; to skip what `e2wm:dp-two-after-bury' does:
+  (e2wm:dp-base-after-bury buried-buffer window)
+
+  ;; If WINDOW is sub, set focus on the window where the focus was
+  ;; just before opening sub window.
+  (let ((wm (e2wm:pst-get-wm)))
+    (when (eq (wlf:get-window-name wm window) 'sub)
+      (wlf:hide wm 'sub)
+      (wlf:select wm (ne2wm:next-non-sub-window-name)))))
 
 
 (defun ne2wm:dp-three+ ()
