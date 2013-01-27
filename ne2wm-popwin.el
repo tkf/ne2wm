@@ -59,6 +59,9 @@ See `popwin:special-display-config'."
          (selectp
           (and (= 0 (minibuffer-depth))
                (not (ne2wm:popwin-noselect-buffer-p buffer)))))
+    (unless (eq (wlf:get-window-name (e2wm:pst-get-wm) (selected-window))
+                'sub)
+      (ne2wm:record-main-window))
     (e2wm:with-advice
      (e2wm:pst-buffer-set 'sub buffer t selectp))))
 
