@@ -169,7 +169,7 @@
         (e2wm:pst-buffer-set wname-other buf t t))
       t)
      ;; If the buffer requires wide window, use `wide-sub'
-     ((member buf-name '("*Calendar*"))
+     ((ne2wm:require-wide-window-p buf)
       (e2wm:with-advice
        (e2wm:pst-buffer-set 'wide-sub buf t t)))
      (t

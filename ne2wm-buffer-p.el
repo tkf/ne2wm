@@ -25,6 +25,14 @@
 (require 'e2wm)
 (require 'howm nil t)
 
+(defvar ne2wm:require-wide-window-regexps
+  `(,(regexp-quote "*Calendar*")
+    ,(regexp-quote " *Org tags*")))
+
+(defun ne2wm:require-wide-window-p (buf)
+  (let ((regexp
+         (mapconcat 'identity ne2wm:require-wide-window-regexps "\\|")))
+    (string-match-p regexp (buffer-name buf))))
 
 ;;; monky/magit
 (defun ne2wm:vcs-status-buffer-p (buf)
