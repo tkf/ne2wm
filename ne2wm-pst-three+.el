@@ -35,10 +35,13 @@
       (| (:left-size 20)
          codethumb
          (- (:upper-size 7)
-            org-clock
-            (- imenu history )))
+           org-clock
+           (- history
+              (- (:lower-size 50)
+                 imenu
+                 sub))))
       (| (:left-size 163)
-         (- (:lower-size 20) (| left right) sub) third)))
+         (- (:lower-size 20) (| left right) wide-sub) third)))
 
 
 (defvar ne2wm:c-three+-winfo
@@ -49,7 +52,8 @@
     (:name history :plugin history-list+)
     (:name org-clock :plugin org-clock)
     (:name codethumb :plugin codethumb :default-hide t)
-    (:name sub :default-hide t)))
+    (:name wide-sub :default-hide t)
+    (:name sub)))
 
 
 (defvar ne2wm:dp-three+-minor-mode-map
@@ -163,6 +167,10 @@
                            (t     'left))))
         (e2wm:pst-buffer-set wname-other buf t t))
       t)
+     ;; If the buffer requires wide window, use `wide-sub'
+     ((member buf-name '("*Calendar*"))
+      (e2wm:with-advice
+       (e2wm:pst-buffer-set 'wide-sub buf t t)))
      (t
       (e2wm:message ">>> t")
       (ne2wm:popup-sub-appropriate-select buf)
@@ -208,8 +216,8 @@
   ;; If WINDOW is sub, set focus on the window where the focus was
   ;; just before opening sub window.
   (let ((wm (e2wm:pst-get-wm)))
-    (when (eq (wlf:get-window-name wm window) 'sub)
-      (wlf:hide wm 'sub)
+    (when (eq (wlf:get-window-name wm window) 'wide-sub)
+      (wlf:hide wm 'wide-sub)
       (wlf:select wm (ne2wm:next-non-sub-window-name)))))
 
 
