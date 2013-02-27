@@ -70,6 +70,23 @@ will be shown in the next window."
         (when move-buffer
           (wlf:set-buffer wm it prev-buf)))))
 
+(defun ne2wm:toggle-focus-sub (&optional move-buffer)
+  "Toggle focus on sub window.
+
+It's like `ne2wm:toggle-sub' but doesn't close sub window.
+If the universal prefix argument is given, the current buffer
+will be shown in the next window."
+  (interactive "P")
+  (let* ((prev-buf (current-buffer))
+         (wm (e2wm:pst-get-wm))
+         (in-sub-p (eq (wlf:get-window-name wm (selected-window)) 'sub))
+         (next-window (if in-sub-p (ne2wm:next-non-sub-window-name) 'sub)))
+    (unless in-sub-p
+      (ne2wm:record-main-window))
+    (wlf:select wm next-window)
+    (when move-buffer
+      (wlf:set-buffer wm next-window prev-buf))))
+
 (defun ne2wm:hide-sub ()
   "Hide e2wm sub window."
   (interactive)
