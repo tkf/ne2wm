@@ -82,7 +82,8 @@ will be shown in the next window."
          (in-sub-p (eq (wlf:get-window-name wm (selected-window)) 'sub))
          (next-window (if in-sub-p (ne2wm:next-non-sub-window-name) 'sub)))
     (unless in-sub-p
-      (ne2wm:record-main-window))
+      (ne2wm:record-main-window)
+      (wlf:show wm 'sub))
     (wlf:select wm next-window)
     (when move-buffer
       (wlf:set-buffer wm next-window prev-buf))))
