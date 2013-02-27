@@ -61,6 +61,7 @@
      ("M-\\" . ne2wm:win-ring-push)
      ("M-~"  . ne2wm:win-ring-rotate)
      ("M-_"  . ne2wm:same-buffer-in-next-window)
+     ("prefix I" . ne2wm:dp-three+-toggle-imenu)
      ("prefix c" . ne2wm:dp-three+-toggle-codethumb))
      e2wm:prefix-key))
 
@@ -215,6 +216,13 @@
 (defun ne2wm:dp-three+ ()
   (interactive)
   (e2wm:pst-change 'three+))
+
+
+(defun ne2wm:dp-three+-toggle-imenu ()
+  (interactive)
+  (wlf:toggle (e2wm:pst-get-wm) 'imenu)
+  (e2wm:plugin-exec-update-by-plugin-name
+   (selected-frame) (e2wm:pst-get-wm) 'imenu))
 
 
 (defun ne2wm:dp-three+-toggle-codethumb ()
